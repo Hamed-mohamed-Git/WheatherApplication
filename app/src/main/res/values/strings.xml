@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Weather</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="setup">Setup Now</string>
+    <string name="starting_settings">Your Settings</string>
+    <string name="init_city">Avenida Marginal 25</string>
+    <string name="init_street">150 m from you</string>
+    <string name="api_key">AIzaSyAbuHdF1hB_ddtCtgEZ7iE3cDqXk4zpVJU</string>
+    <string name="location">location</string>
+    <string name="googlemap">GoogleMap</string>
+    <string name="weather">Weather</string>
+
+</resources>
