@@ -5,9 +5,6 @@
 
     <data>
         <variable
-            name="locationAction"
-            type="com.example.wheatherapplication.ui.location.LocationListener" />
-        <variable
             name="viewModel"
             type="com.example.wheatherapplication.ui.location.LocationViewModel" />
     </data>
@@ -66,7 +63,6 @@
                 android:paddingTop="3dp"
                 android:paddingRight="25dp"
                 android:paddingBottom="3dp"
-                android:onClick="@{()-> locationAction.onGpsLocationListener()}"
                 android:text="@string/location"
                 android:textColor="@drawable/radio_flat_text_selector" />
 
@@ -80,7 +76,6 @@
                 android:paddingLeft="16dp"
                 android:paddingTop="3dp"
                 android:paddingRight="16dp"
-                android:onClick="@{()-> locationAction.onGoogleMapLocationListener()}"
                 android:paddingBottom="3dp"
                 android:text="@string/googlemap"
                 android:textColor="@drawable/radio_flat_text_selector" />

@@ -1,6 +1,6 @@
 package com.example.wheatherapplication.di
 
-import com.example.wheatherapplication.data.remote.interceptors.OneCallInterceptor
+import com.example.wheatherapplication.data.remote.interceptors.OpenWeatherInterceptor
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,6 +12,6 @@ import okhttp3.Interceptor
 abstract class InterceptorModule {
     @Binds
     abstract fun bindsInterceptor(
-        oneCallInterceptor: OneCallInterceptor
+        openWeatherInterceptor: OpenWeatherInterceptor
     ):Interceptor
 }

@@ -2,27 +2,18 @@ package com.example.wheatherapplication.ui.location
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.wheatherapplication.R
 import com.example.wheatherapplication.databinding.FragmentLocationBinding
 import com.example.wheatherapplication.ui.common.BaseFragment
-import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -34,14 +25,14 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class LocationFragment : BaseFragment<FragmentLocationBinding,LocationViewModel>(), OnMapReadyCallback, LocationListener {
+class LocationFragment : BaseFragment<FragmentLocationBinding, LocationViewModel>(),
+    OnMapReadyCallback{
     private lateinit var mapFragment: SupportMapFragment
     private lateinit var placeFragment: AutocompleteSupportFragment
     private var latLng: LatLng? = null
@@ -81,16 +72,14 @@ class LocationFragment : BaseFragment<FragmentLocationBinding,LocationViewModel>
         }
 
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.locationAction = this
         binding.viewModel = viewModel
         initializePlaces()
         binding.setupButton.setOnClickListener {
             latLng?.let {
                 viewModel.saveLatLng(it)
+                findNavController().navigate(R.id.action_locationFragment_to_homeFragment)
             }
         }
         mapFragment = binding.map.getFragment()
@@ -103,6 +92,12 @@ class LocationFragment : BaseFragment<FragmentLocationBinding,LocationViewModel>
                 }
                 else -> {}
             }
+        }
+        binding.radio0.setOnClickListener {
+            getGpsLocation()
+        }
+        binding.radio1.setOnClickListener {
+            getGoogleMapLocation()
         }
     }
 
@@ -174,12 +169,12 @@ class LocationFragment : BaseFragment<FragmentLocationBinding,LocationViewModel>
     }
 
 
-    override fun onGpsLocationListener() {
+    private fun getGpsLocation() {
         binding.autocompleteFragment.visibility = View.GONE
         viewModel.getGpsLocation(checkPermission())
     }
 
-    override fun onGoogleMapLocationListener() {
+    private fun getGoogleMapLocation() {
         resultLauncher.launch(
             Autocomplete.IntentBuilder(
                 AutocompleteActivityMode.OVERLAY, listOf(

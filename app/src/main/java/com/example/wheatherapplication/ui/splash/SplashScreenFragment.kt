@@ -2,21 +2,15 @@ package com.example.wheatherapplication.ui.splash
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.wheatherapplication.R
 import com.example.wheatherapplication.databinding.FragmentSplashScreenBinding
 import com.example.wheatherapplication.ui.common.BaseFragment
-import com.example.wheatherapplication.ui.location.LocationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 

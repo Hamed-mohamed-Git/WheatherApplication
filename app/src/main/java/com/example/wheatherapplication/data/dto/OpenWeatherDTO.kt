@@ -2,7 +2,7 @@ package com.example.wheatherapplication.data.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class OneCallDTO(
+data class OpenWeatherDTO(
 
 	@field:SerializedName("current")
 	val current: Current? = null,
@@ -17,13 +17,13 @@ data class OneCallDTO(
 	val daily: List<DailyItem?>? = null,
 
 	@field:SerializedName("lon")
-	val lon: Int? = null,
+	val lon: Double? = null,
 
 	@field:SerializedName("hourly")
 	val hourly: List<HourlyItem?>? = null,
 
 	@field:SerializedName("lat")
-	val lat: Int? = null
+	val lat: Double? = null
 )
 
 data class HourlyItem(
@@ -35,7 +35,7 @@ data class HourlyItem(
 	val visibility: Int? = null,
 
 	@field:SerializedName("uvi")
-	val uvi: Int? = null,
+	val uvi: Double? = null,
 
 	@field:SerializedName("pressure")
 	val pressure: Int? = null,
@@ -125,7 +125,7 @@ data class DailyItem(
 	val moonPhase: Any? = null,
 
 	@field:SerializedName("uvi")
-	val uvi: Any? = null,
+	val uvi: Double? = null,
 
 	@field:SerializedName("moonrise")
 	val moonrise: Int? = null,
@@ -182,7 +182,7 @@ data class Current(
 	val visibility: Int? = null,
 
 	@field:SerializedName("uvi")
-	val uvi: Int? = null,
+	val uvi: Double? = null,
 
 	@field:SerializedName("pressure")
 	val pressure: Int? = null,
@@ -203,7 +203,7 @@ data class Current(
 	val windDeg: Int? = null,
 
 	@field:SerializedName("dew_point")
-	val dewPoint: Int? = null,
+	val dewPoint: Double? = null,
 
 	@field:SerializedName("sunset")
 	val sunset: Int? = null,

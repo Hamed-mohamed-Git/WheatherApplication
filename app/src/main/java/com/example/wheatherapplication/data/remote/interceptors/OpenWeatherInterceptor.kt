@@ -3,8 +3,9 @@ package com.example.wheatherapplication.data.remote.interceptors
 import com.example.wheatherapplication.constants.Constants
 import okhttp3.Interceptor
 import okhttp3.Response
+import javax.inject.Inject
 
-class OneCallInterceptor :Interceptor {
+class OpenWeatherInterceptor @Inject constructor() :Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         return chain.proceed(chain
             .request()

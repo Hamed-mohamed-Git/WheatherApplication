@@ -1,8 +1,7 @@
 package com.example.wheatherapplication.di
 
 import com.example.wheatherapplication.constants.Constants
-import com.example.wheatherapplication.data.dto.OneCallDTO
-import com.example.wheatherapplication.data.remote.interceptors.OneCallInterceptor
+import com.example.wheatherapplication.data.remote.OpenWeatherApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,6 +33,6 @@ object ApiModule {
 
 
     @Provides
-    fun provideOneCallDto(retrofit: Retrofit): OneCallDTO = retrofit.create(OneCallDTO::class.java)
+    fun provideOneCallDto(retrofit: Retrofit): OpenWeatherApiService = retrofit.create(OpenWeatherApiService::class.java)
 
 }
