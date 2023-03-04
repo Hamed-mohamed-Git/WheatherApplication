@@ -1,18 +1,18 @@
 package com.example.wheatherapplication.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.wheatherapplication.R
 import com.example.wheatherapplication.databinding.FragmentHomeBinding
+import com.example.wheatherapplication.domain.model.WeatherDailyItem
+import com.example.wheatherapplication.domain.model.WeatherHourlyItem
 import com.example.wheatherapplication.ui.common.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding,HomeViewModel>() {
+class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     override val viewModel: HomeViewModel by viewModels()
     override val layoutRes: Int = R.layout.fragment_home
 
@@ -21,8 +21,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding,HomeViewModel>() {
         binding.viewModel = viewModel
         viewModel.getLocationWeather()
         lifecycleScope.launch {
-            viewModel.weatherInfo.collect{
-                Log.i("hamed", "onViewCreated: ${it.timezone}")
+            viewModel.weatherInfo.collect {
+                binding.weatherData = it
+                it.hourly?.let { hourlyList ->
+                    binding.hourlyAdapter = HourlyAdapter(hourlyList as List<WeatherHourlyItem>)
+                }
+                it.daily?.let { dailyList ->
+                    binding.dailyAdapter = DailyAdapter(dailyList as List<WeatherDailyItem>)
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.locationInfo.collect { address ->
+                binding.address = address
             }
         }
     }

@@ -10,6 +10,8 @@ import com.example.wheatherapplication.R
 import com.example.wheatherapplication.databinding.FragmentSplashScreenBinding
 import com.example.wheatherapplication.ui.common.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -23,17 +25,20 @@ class SplashScreenFragment : BaseFragment<FragmentSplashScreenBinding,SplashScre
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getDataStoreLocationDataFound()
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.Main) {
             viewModel.dataStoreLocationData.collect{
                 when(it){
                     is DataStoreLocationState.LocationFounded -> {
                         delay(1500)
-                        findNavController().navigate(R.id.action_splashScreenFragment_to_homeFragment)
+                        this.cancel()
+                        this@SplashScreenFragment.findNavController().navigate(R.id.action_splashScreenFragment_to_homeFragment)
                     }
                     is DataStoreLocationState.LocationNotFounded -> {
                         delay(1500)
-                        findNavController().navigate(R.id.action_splashScreenFragment_to_locationFragment)
+                        this.cancel()
+                        this@SplashScreenFragment.findNavController().navigate(R.id.action_splashScreenFragment_to_locationFragment)
                     }
+                    else ->{}
                 }
             }
         }

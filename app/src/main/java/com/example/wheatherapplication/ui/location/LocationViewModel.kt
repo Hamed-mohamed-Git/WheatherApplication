@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.wheatherapplication.domain.model.AddressData
 import com.example.wheatherapplication.domain.usecase.GetCurrentLocation
 import com.example.wheatherapplication.domain.usecase.GetDataStoreLocationData
 import com.example.wheatherapplication.domain.usecase.GetGeoCoderLocation
@@ -24,7 +25,7 @@ class LocationViewModel @Inject constructor(
     private val getGeoCoderLocation: GetGeoCoderLocation,
     private val setDataStoreLocationData: SetDataStoreLocationData
 ):ViewModel() {
-    val address = MutableLiveData<Address?>()
+    val address = MutableLiveData<AddressData?>()
     val latLng = MutableLiveData<LatLng?>()
 
     private val _locationEventChannel = Channel<LocationEvent>()
@@ -43,11 +44,7 @@ class LocationViewModel @Inject constructor(
         }
     }
 
-    fun convertLatLngToAddress(latLng: LatLng?): Unit = address.postValue(latLng?.let {
-        getGeoCoderLocation(
-            it
-        )?.get(0)
-    })
+    fun convertLatLngToAddress(latLng: LatLng): Unit = address.postValue(getGeoCoderLocation(latLng))
 
     fun saveLatLng(latLng: LatLng?){
         viewModelScope.launch{

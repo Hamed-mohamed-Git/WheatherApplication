@@ -13,10 +13,3 @@ class OpenWeatherInterceptor @Inject constructor() :Interceptor {
             .url(chain.request().url.newBuilder().addQueryParameter("appid",Constants.APP_API_KEY).build()).build())
     }
 }
-
-//    Interceptor {
-//        val requestBuilder=it.request().newBuilder()
-//        var urlBuilder=it.request().url().newBuilder()
-//        urlBuilder=urlBuilder.addQueryParameter("apikey","ar")
-//        it.proceed(it.request().newBuilder().url(urlBuilder.build()).build())
-//    }

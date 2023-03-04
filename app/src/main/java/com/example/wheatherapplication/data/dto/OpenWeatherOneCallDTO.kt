@@ -2,10 +2,13 @@ package com.example.wheatherapplication.data.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class OpenWeatherDTO(
+data class OpenWeatherOneCallDTO(
 
 	@field:SerializedName("current")
 	val current: Current? = null,
+
+	@field:SerializedName("minutely")
+	val minutely: List<MinutelyItem?>? = null,
 
 	@field:SerializedName("timezone")
 	val timezone: String? = null,
@@ -23,13 +26,16 @@ data class OpenWeatherDTO(
 	val hourly: List<HourlyItem?>? = null,
 
 	@field:SerializedName("lat")
-	val lat: Double? = null
+	val lat: Double? = null,
+
+	@field:SerializedName("alerts")
+	val alerts: List<AlertsItem?>? = null
 )
 
 data class HourlyItem(
 
 	@field:SerializedName("temp")
-	val temp: Any? = null,
+	val temp: Double? = null,
 
 	@field:SerializedName("visibility")
 	val visibility: Int? = null,
@@ -53,7 +59,7 @@ data class HourlyItem(
 	val dt: Int? = null,
 
 	@field:SerializedName("pop")
-	val pop: Int? = null,
+	val pop: Any? = null,
 
 	@field:SerializedName("wind_deg")
 	val windDeg: Int? = null,
@@ -146,7 +152,7 @@ data class DailyItem(
 	val dt: Int? = null,
 
 	@field:SerializedName("pop")
-	val pop: Int? = null,
+	val pop: Any? = null,
 
 	@field:SerializedName("wind_deg")
 	val windDeg: Int? = null,
@@ -176,7 +182,7 @@ data class Current(
 	val sunrise: Int? = null,
 
 	@field:SerializedName("temp")
-	val temp: Any? = null,
+	val temp: Double? = null,
 
 	@field:SerializedName("visibility")
 	val visibility: Int? = null,
@@ -221,10 +227,10 @@ data class Current(
 data class Temp(
 
 	@field:SerializedName("min")
-	val min: Any? = null,
+	val min: Double? = null,
 
 	@field:SerializedName("max")
-	val max: Any? = null,
+	val max: Double? = null,
 
 	@field:SerializedName("eve")
 	val eve: Any? = null,
@@ -238,3 +244,36 @@ data class Temp(
 	@field:SerializedName("morn")
 	val morn: Any? = null
 )
+
+data class AlertsItem(
+
+	@field:SerializedName("start")
+	val start: Int? = null,
+
+	@field:SerializedName("description")
+	val description: String? = null,
+
+	@field:SerializedName("sender_name")
+	val senderName: String? = null,
+
+	@field:SerializedName("end")
+	val end: Int? = null,
+
+	@field:SerializedName("event")
+	val event: String? = null,
+
+	@field:SerializedName("tags")
+	val tags: List<Any?>? = null
+)
+
+
+
+data class MinutelyItem(
+
+	@field:SerializedName("dt")
+	val dt: Int? = null,
+
+	@field:SerializedName("precipitation")
+	val precipitation: Int? = null
+)
+

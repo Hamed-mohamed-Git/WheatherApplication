@@ -15,7 +15,7 @@ import javax.inject.Inject
 class SplashScreenViewModel @Inject constructor(
     private val getDataStoreLocationData: GetDataStoreLocationData
 ):ViewModel() {
-    private val _dataStoreLocationData:MutableStateFlow<DataStoreLocationState> = MutableStateFlow(DataStoreLocationState.LocationFounded)
+    private val _dataStoreLocationData:MutableStateFlow<DataStoreLocationState> = MutableStateFlow(DataStoreLocationState.LocationNull)
     val dataStoreLocationData = _dataStoreLocationData
 
     fun getDataStoreLocationDataFound(){

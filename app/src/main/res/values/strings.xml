@@ -9,5 +9,24 @@
     <string name="location">location</string>
     <string name="googlemap">GoogleMap</string>
     <string name="weather">Weather</string>
+    <string name="_7_day_forecast">7-DAY FORECAST</string>
+    <string name="high">High</string>
+    <string name="sunset_hour">5:54 рм</string>
+    <string name="sunrise_6_18am">Sunrise: 6:18AM</string>
+    <string name="sunset">SUNSET</string>
+    <string name="feels_like">FEELS LIKE</string>
+    <string name="wind_feel_like">Wind is making it feel cooler.</string>
+    <string name="wind">WIND</string>
+    <string name="wind_unit">km/h</string>
+    <string name="humidity">HUMIDITY</string>
+    <string name="visibility">VISIBILITY</string>
+    <string name="visibility_des">It\'s perfectly clear right now.</string>
+    <string name="report_an_issue">Report an Issue</string>
+    <string name="issue_des">You can describe the current conditions at your location to help improve forecasts.</string>
+    <string name="learn_more_about">Learn more about</string>
+    <string name="weather_data"><u>weather data</u></string>
+    <string name="and">and</string>
+    <string name="map_data"><u>map data</u></string>
+    <string name="weather_for">Weather for</string>
 
 </resources>
