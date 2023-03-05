@@ -6,7 +6,7 @@ object Constants {
     const val API_ICON_URL = "https://openweathermap.org/img/wn/"
     const val API_UNIT_METRIC = "metric"
     const val API_UNIT_IMPERIAL = "imperial"
-    const val DATE_HOUR_PATTERN = "hh:mm a"
+    const val DATE_HOUR_PATTERN = "hh a"
     const val DATE_DAY_PATTERN = "yyyy-MM-dd"
     const val FULL_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss"
 }

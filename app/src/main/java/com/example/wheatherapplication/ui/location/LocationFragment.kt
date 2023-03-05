@@ -79,7 +79,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding, LocationViewModel
         binding.setupButton.setOnClickListener {
             latLng?.let {
                 viewModel.saveLatLng(it)
-                findNavController().navigate(R.id.action_locationFragment_to_homeFragment)
+                findNavController().navigate(R.id.action_locationFragment_to_baseWeatherFragment)
             }
         }
         mapFragment = binding.map.getFragment()

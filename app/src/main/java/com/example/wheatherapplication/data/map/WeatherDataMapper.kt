@@ -48,8 +48,8 @@ object WeatherDataMapper {
 
     private fun convertToWeatherHourlyItem(hourlyItem: HourlyItem, index: Int): WeatherHourlyItem =
         WeatherHourlyItem(
-            if (index > 0) TimeMapper.convertTimeStampToHour(hourlyItem.dt?.toLong())
-                .lowercase() else "Now",
+            if (index > 0) TimeMapper.convertTimeStampToHour(hourlyItem.dt?.toLong()).trimStart('0')
+            else "Now",
             "${hourlyItem.temp?.toInt()}°",
             "${Constants.API_ICON_URL}${hourlyItem.weather?.get(0)?.icon}@2x.png"
         )
@@ -92,5 +92,6 @@ object WeatherDataMapper {
         }
         return weatherDailyList
     }
+
 
 }

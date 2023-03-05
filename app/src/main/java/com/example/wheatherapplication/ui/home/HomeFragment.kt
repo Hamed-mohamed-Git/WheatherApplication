@@ -9,21 +9,26 @@ import com.example.wheatherapplication.databinding.FragmentHomeBinding
 import com.example.wheatherapplication.domain.model.WeatherDailyItem
 import com.example.wheatherapplication.domain.model.WeatherHourlyItem
 import com.example.wheatherapplication.ui.common.BaseFragment
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
+class HomeFragment(
+    private val latLng: LatLng
+) : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     override val viewModel: HomeViewModel by viewModels()
     override val layoutRes: Int = R.layout.fragment_home
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-        viewModel.getLocationWeather()
+        viewModel.getWeatherInfo(latLng)
         lifecycleScope.launch {
             viewModel.weatherInfo.collect {
                 binding.weatherData = it
                 it.hourly?.let { hourlyList ->
+                    viewModel.saveWeather(it)
                     binding.hourlyAdapter = HourlyAdapter(hourlyList as List<WeatherHourlyItem>)
                 }
                 it.daily?.let { dailyList ->

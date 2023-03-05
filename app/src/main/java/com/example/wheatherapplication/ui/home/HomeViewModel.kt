@@ -47,12 +47,24 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    fun getLocationWeather() {
+    fun getWeatherInfo(latLng: LatLng) {
+        getWeather(latLng)
+        getLocationInfo(latLng)
+    }
+
+    fun saveWeather(weatherData: WeatherData){
         viewModelScope.launch {
-            getDataStoreLocationData().collect {
-                getWeather(it)
-                getLocationInfo(it)
-            }
+            openWeatherRepository.insertFavouriteWeather(weatherData)
         }
     }
+
+
+//    fun getLocationWeather() {
+//        viewModelScope.launch {
+//            getDataStoreLocationData().collect {
+//                getWeather(it)
+//                getLocationInfo(it)
+//            }
+//        }
+//    }
 }

@@ -11,8 +11,8 @@
         android:label="fragment_location"
         tools:layout="@layout/fragment_location" >
         <action
-            android:id="@+id/action_locationFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            android:id="@+id/action_locationFragment_to_baseWeatherFragment"
+            app:destination="@id/baseWeatherFragment" />
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"
@@ -21,15 +21,14 @@
         tools:layout="@layout/fragment_splash_screen" >
 
         <action
-            android:id="@+id/action_splashScreenFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-        <action
             android:id="@+id/action_splashScreenFragment_to_locationFragment"
             app:destination="@id/locationFragment" />
+        <action
+            android:id="@+id/action_splashScreenFragment_to_baseWeatherFragment"
+            app:destination="@id/baseWeatherFragment" />
     </fragment>
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.wheatherapplication.ui.home.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/baseWeatherFragment"
+        android:name="com.example.wheatherapplication.ui.base.BaseWeatherFragment"
+        android:label="BaseWeatherFragment" />
 </navigation>
