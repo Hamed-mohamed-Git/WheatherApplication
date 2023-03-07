@@ -2,7 +2,7 @@ package com.example.wheatherapplication.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.wheatherapplication.data.dao.FavouriteWeatherDataDao
+import com.example.wheatherapplication.data.local.dao.FavouriteWeatherDataDao
 import com.example.wheatherapplication.data.local.AppDatabase
 import com.example.wheatherapplication.domain.model.WeatherData
 import dagger.Module

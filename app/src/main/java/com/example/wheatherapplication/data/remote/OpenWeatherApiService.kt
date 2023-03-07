@@ -1,7 +1,7 @@
 package com.example.wheatherapplication.data.remote
 
-import com.example.wheatherapplication.data.dto.OpenWeatherOneCallDTO
-import com.example.wheatherapplication.data.dto.OpenWeatherForeCastDTO
+import com.example.wheatherapplication.data.remote.dto.OpenWeatherOneCallDTO
+import com.example.wheatherapplication.data.remote.dto.OpenWeatherForeCastDTO
 import retrofit2.http.GET
 import retrofit2.http.Query
 

@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.wheatherapplication.R
+import com.example.wheatherapplication.constants.Constants
 import com.example.wheatherapplication.databinding.FragmentLocationBinding
 import com.example.wheatherapplication.ui.common.BaseFragment
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -159,7 +160,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding, LocationViewModel
     }
 
     private fun initializePlaces() {
-        val apiKey = getString(R.string.api_key)
+        val apiKey = Constants.PLACES_API_KEY
         if (!Places.isInitialized()) {
             context?.applicationContext?.let {
                 Places.initialize(it, apiKey)

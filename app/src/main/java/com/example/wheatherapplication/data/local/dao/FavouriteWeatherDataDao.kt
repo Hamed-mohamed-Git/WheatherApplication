@@ -1,4 +1,4 @@
-package com.example.wheatherapplication.data.dao
+package com.example.wheatherapplication.data.local.dao
 
 import androidx.room.*
 import com.example.wheatherapplication.data.local.FavouriteWeather
@@ -12,6 +12,9 @@ interface FavouriteWeatherDataDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertFavouriteWeather(vararg favouriteWeather: FavouriteWeather)
+
+    @Query("SELECT * FROM FavouriteWeather WHERE latLngID LIKE :id ")
+    fun getFavouriteWeather(id:String):Flow<FavouriteWeather>
 
     @Update
     suspend fun updateFavouriteWeather(vararg favouriteWeather: FavouriteWeather)

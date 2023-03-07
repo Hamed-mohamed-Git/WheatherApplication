@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.wheatherapplication.R
 import com.example.wheatherapplication.databinding.FragmentBaseBinding
 import com.example.wheatherapplication.ui.common.BaseFragment
@@ -34,7 +35,7 @@ class BaseWeatherFragment : BaseFragment<FragmentBaseBinding, BaseWeatherViewMod
                         if (position == 0)
                             tab.icon =
                                 ContextCompat.getDrawable(requireContext(), R.drawable.navigation)
-                        else
+                        else if (position in 1..7)
                             tab.icon =
                                 ContextCompat.getDrawable(requireContext(), R.drawable.bullet)
                     }.attach()
@@ -44,7 +45,7 @@ class BaseWeatherFragment : BaseFragment<FragmentBaseBinding, BaseWeatherViewMod
         }
 
         binding.favouriteButton.setOnClickListener {
-            Toast.makeText(context, "hamed", Toast.LENGTH_LONG).show()
+            findNavController().navigate(R.id.action_baseWeatherFragment_to_favouriteFragment)
         }
         binding.mapButton.setOnClickListener {
             Toast.makeText(context, "hamed", Toast.LENGTH_LONG).show()

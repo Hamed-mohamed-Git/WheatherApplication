@@ -30,5 +30,13 @@
     <fragment
         android:id="@+id/baseWeatherFragment"
         android:name="com.example.wheatherapplication.ui.base.BaseWeatherFragment"
-        android:label="BaseWeatherFragment" />
+        android:label="BaseWeatherFragment" >
+        <action
+            android:id="@+id/action_baseWeatherFragment_to_favouriteFragment"
+            app:destination="@id/favouriteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="com.example.wheatherapplication.ui.favourite.FavouriteFragment"
+        android:label="FavouriteFragment" />
 </navigation>

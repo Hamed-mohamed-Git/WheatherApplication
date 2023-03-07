@@ -1,22 +1,22 @@
-package com.example.wheatherapplication.data.dto
+package com.example.wheatherapplication.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
 data class OpenWeatherForeCastDTO(
 
-	@field:SerializedName("city")
+    @field:SerializedName("city")
 	val city: City? = null,
 
-	@field:SerializedName("cnt")
+    @field:SerializedName("cnt")
 	val cnt: Int? = null,
 
-	@field:SerializedName("cod")
+    @field:SerializedName("cod")
 	val cod: String? = null,
 
-	@field:SerializedName("message")
+    @field:SerializedName("message")
 	val message: Int? = null,
 
-	@field:SerializedName("list")
+    @field:SerializedName("list")
 	val list: List<ListItem?>? = null
 )
 
@@ -34,58 +34,58 @@ data class Clouds(
 
 data class City(
 
-	@field:SerializedName("country")
+    @field:SerializedName("country")
 	val country: String? = null,
 
-	@field:SerializedName("coord")
+    @field:SerializedName("coord")
 	val coord: Coord? = null,
 
-	@field:SerializedName("sunrise")
+    @field:SerializedName("sunrise")
 	val sunrise: Int? = null,
 
-	@field:SerializedName("timezone")
+    @field:SerializedName("timezone")
 	val timezone: Int? = null,
 
-	@field:SerializedName("sunset")
+    @field:SerializedName("sunset")
 	val sunset: Int? = null,
 
-	@field:SerializedName("name")
+    @field:SerializedName("name")
 	val name: String? = null,
 
-	@field:SerializedName("id")
+    @field:SerializedName("id")
 	val id: Int? = null,
 
-	@field:SerializedName("population")
+    @field:SerializedName("population")
 	val population: Int? = null
 )
 
 data class ListItem(
 
-	@field:SerializedName("dt")
+    @field:SerializedName("dt")
 	val dt: Int? = null,
 
-	@field:SerializedName("pop")
+    @field:SerializedName("pop")
 	val pop: Int? = null,
 
-	@field:SerializedName("visibility")
+    @field:SerializedName("visibility")
 	val visibility: Int? = null,
 
-	@field:SerializedName("dt_txt")
+    @field:SerializedName("dt_txt")
 	val dtTxt: String? = null,
 
-	@field:SerializedName("weather")
+    @field:SerializedName("weather")
 	val weather: List<WeatherItem?>? = null,
 
-	@field:SerializedName("main")
+    @field:SerializedName("main")
 	val main: Main? = null,
 
-	@field:SerializedName("clouds")
+    @field:SerializedName("clouds")
 	val clouds: Clouds? = null,
 
-	@field:SerializedName("sys")
+    @field:SerializedName("sys")
 	val sys: Sys? = null,
 
-	@field:SerializedName("wind")
+    @field:SerializedName("wind")
 	val wind: Wind? = null
 )
 

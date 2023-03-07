@@ -1,6 +1,7 @@
 package com.example.wheatherapplication.domain.repository
 
 import androidx.datastore.preferences.core.Preferences
+import com.example.wheatherapplication.domain.model.WeatherSetting
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.flow.Flow
 

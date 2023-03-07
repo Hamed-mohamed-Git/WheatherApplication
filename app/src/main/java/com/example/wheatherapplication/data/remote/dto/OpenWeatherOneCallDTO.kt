@@ -1,82 +1,82 @@
-package com.example.wheatherapplication.data.dto
+package com.example.wheatherapplication.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
 data class OpenWeatherOneCallDTO(
 
-	@field:SerializedName("current")
+    @field:SerializedName("current")
 	val current: Current? = null,
 
-	@field:SerializedName("minutely")
+    @field:SerializedName("minutely")
 	val minutely: List<MinutelyItem?>? = null,
 
-	@field:SerializedName("timezone")
+    @field:SerializedName("timezone")
 	val timezone: String? = null,
 
-	@field:SerializedName("timezone_offset")
+    @field:SerializedName("timezone_offset")
 	val timezoneOffset: Int? = null,
 
-	@field:SerializedName("daily")
+    @field:SerializedName("daily")
 	val daily: List<DailyItem?>? = null,
 
-	@field:SerializedName("lon")
+    @field:SerializedName("lon")
 	val lon: Double? = null,
 
-	@field:SerializedName("hourly")
+    @field:SerializedName("hourly")
 	val hourly: List<HourlyItem?>? = null,
 
-	@field:SerializedName("lat")
+    @field:SerializedName("lat")
 	val lat: Double? = null,
 
-	@field:SerializedName("alerts")
+    @field:SerializedName("alerts")
 	val alerts: List<AlertsItem?>? = null
 )
 
 data class HourlyItem(
 
-	@field:SerializedName("temp")
+    @field:SerializedName("temp")
 	val temp: Double? = null,
 
-	@field:SerializedName("visibility")
+    @field:SerializedName("visibility")
 	val visibility: Int? = null,
 
-	@field:SerializedName("uvi")
+    @field:SerializedName("uvi")
 	val uvi: Double? = null,
 
-	@field:SerializedName("pressure")
+    @field:SerializedName("pressure")
 	val pressure: Int? = null,
 
-	@field:SerializedName("clouds")
+    @field:SerializedName("clouds")
 	val clouds: Int? = null,
 
-	@field:SerializedName("feels_like")
+    @field:SerializedName("feels_like")
 	val feelsLike: Any? = null,
 
-	@field:SerializedName("wind_gust")
+    @field:SerializedName("wind_gust")
 	val windGust: Any? = null,
 
-	@field:SerializedName("dt")
+    @field:SerializedName("dt")
 	val dt: Int? = null,
 
-	@field:SerializedName("pop")
+    @field:SerializedName("pop")
 	val pop: Any? = null,
 
-	@field:SerializedName("wind_deg")
+    @field:SerializedName("wind_deg")
 	val windDeg: Int? = null,
 
-	@field:SerializedName("dew_point")
+    @field:SerializedName("dew_point")
 	val dewPoint: Any? = null,
 
-	@field:SerializedName("weather")
+    @field:SerializedName("weather")
 	val weather: List<WeatherItem?>? = null,
 
-	@field:SerializedName("humidity")
+    @field:SerializedName("humidity")
 	val humidity: Int? = null,
 
-	@field:SerializedName("wind_speed")
+    @field:SerializedName("wind_speed")
 	val windSpeed: Any? = null,
 
-	@field:SerializedName("rain")
+    @field:SerializedName("rain")
 	val rain: Rain? = null
 )
 
@@ -118,109 +118,109 @@ data class FeelsLike(
 
 data class DailyItem(
 
-	@field:SerializedName("moonset")
+    @field:SerializedName("moonset")
 	val moonset: Int? = null,
 
-	@field:SerializedName("sunrise")
+    @field:SerializedName("sunrise")
 	val sunrise: Int? = null,
 
-	@field:SerializedName("temp")
+    @field:SerializedName("temp")
 	val temp: Temp? = null,
 
-	@field:SerializedName("moon_phase")
+    @field:SerializedName("moon_phase")
 	val moonPhase: Any? = null,
 
-	@field:SerializedName("uvi")
+    @field:SerializedName("uvi")
 	val uvi: Double? = null,
 
-	@field:SerializedName("moonrise")
+    @field:SerializedName("moonrise")
 	val moonrise: Int? = null,
 
-	@field:SerializedName("pressure")
+    @field:SerializedName("pressure")
 	val pressure: Int? = null,
 
-	@field:SerializedName("clouds")
+    @field:SerializedName("clouds")
 	val clouds: Int? = null,
 
-	@field:SerializedName("feels_like")
+    @field:SerializedName("feels_like")
 	val feelsLike: FeelsLike? = null,
 
-	@field:SerializedName("wind_gust")
+    @field:SerializedName("wind_gust")
 	val windGust: Any? = null,
 
-	@field:SerializedName("dt")
+    @field:SerializedName("dt")
 	val dt: Int? = null,
 
-	@field:SerializedName("pop")
+    @field:SerializedName("pop")
 	val pop: Any? = null,
 
-	@field:SerializedName("wind_deg")
+    @field:SerializedName("wind_deg")
 	val windDeg: Int? = null,
 
-	@field:SerializedName("dew_point")
+    @field:SerializedName("dew_point")
 	val dewPoint: Any? = null,
 
-	@field:SerializedName("sunset")
+    @field:SerializedName("sunset")
 	val sunset: Int? = null,
 
-	@field:SerializedName("weather")
+    @field:SerializedName("weather")
 	val weather: List<WeatherItem?>? = null,
 
-	@field:SerializedName("humidity")
+    @field:SerializedName("humidity")
 	val humidity: Int? = null,
 
-	@field:SerializedName("wind_speed")
+    @field:SerializedName("wind_speed")
 	val windSpeed: Any? = null,
 
-	@field:SerializedName("rain")
+    @field:SerializedName("rain")
 	val rain: Any? = null
 )
 
 data class Current(
 
-	@field:SerializedName("sunrise")
+    @field:SerializedName("sunrise")
 	val sunrise: Int? = null,
 
-	@field:SerializedName("temp")
+    @field:SerializedName("temp")
 	val temp: Double? = null,
 
-	@field:SerializedName("visibility")
+    @field:SerializedName("visibility")
 	val visibility: Int? = null,
 
-	@field:SerializedName("uvi")
+    @field:SerializedName("uvi")
 	val uvi: Double? = null,
 
-	@field:SerializedName("pressure")
+    @field:SerializedName("pressure")
 	val pressure: Int? = null,
 
-	@field:SerializedName("clouds")
+    @field:SerializedName("clouds")
 	val clouds: Int? = null,
 
-	@field:SerializedName("feels_like")
+    @field:SerializedName("feels_like")
 	val feelsLike: Any? = null,
 
-	@field:SerializedName("wind_gust")
+    @field:SerializedName("wind_gust")
 	val windGust: Any? = null,
 
-	@field:SerializedName("dt")
+    @field:SerializedName("dt")
 	val dt: Int? = null,
 
-	@field:SerializedName("wind_deg")
+    @field:SerializedName("wind_deg")
 	val windDeg: Int? = null,
 
-	@field:SerializedName("dew_point")
+    @field:SerializedName("dew_point")
 	val dewPoint: Double? = null,
 
-	@field:SerializedName("sunset")
+    @field:SerializedName("sunset")
 	val sunset: Int? = null,
 
-	@field:SerializedName("weather")
+    @field:SerializedName("weather")
 	val weather: List<WeatherItem?>? = null,
 
-	@field:SerializedName("humidity")
+    @field:SerializedName("humidity")
 	val humidity: Int? = null,
 
-	@field:SerializedName("wind_speed")
+    @field:SerializedName("wind_speed")
 	val windSpeed: Any? = null
 )
 

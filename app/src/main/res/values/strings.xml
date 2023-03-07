@@ -28,5 +28,9 @@
     <string name="and">and</string>
     <string name="map_data"><u>map data</u></string>
     <string name="weather_for">Weather for</string>
+    <string name="search_for_a_city_or_airport">Search for a city or airport</string>
+    <string name="cancel">Cancel</string>
+    <string name="add">Add</string>
+    <string name="done">Done</string>
 
 </resources>

@@ -18,6 +18,4 @@ class GetGeoCoderLocation @Inject constructor(
             5)?.get(0) ?: Address(Locale.getDefault())
         )
 
-
-
 }

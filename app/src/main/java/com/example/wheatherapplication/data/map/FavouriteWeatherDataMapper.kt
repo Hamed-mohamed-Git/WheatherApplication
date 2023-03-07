@@ -13,7 +13,7 @@ object FavouriteWeatherDataMapper {
     private fun convertToJson(weatherData: WeatherData?): String =
         gson.toJson(weatherData)
 
-    private fun convertToWeatherData(favouriteWeatherDataJson: String?): WeatherData =
+    fun convertToWeatherData(favouriteWeatherDataJson: String?): WeatherData =
         gson.fromJson(favouriteWeatherDataJson, WeatherData::class.java)
 
 

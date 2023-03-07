@@ -1,8 +1,8 @@
 package com.example.wheatherapplication.domain.model
 
-import com.example.wheatherapplication.data.dto.AlertsItem
-import com.example.wheatherapplication.data.dto.Temp
-import com.example.wheatherapplication.data.dto.WeatherItem
+import com.example.wheatherapplication.data.remote.dto.AlertsItem
+import com.example.wheatherapplication.data.remote.dto.Temp
+import com.example.wheatherapplication.data.remote.dto.WeatherItem
 
 
 
@@ -12,7 +12,8 @@ data class WeatherData(
     val lat: Double? = null,
     val daily: List<WeatherDailyItem?>? = null,
     val hourly: List<WeatherHourlyItem?>? = null,
-    val alerts: List<AlertsItem?>? = null
+    val alerts: List<AlertsItem?>? = null,
+    var address: AddressData? = null
 )
 
 data class CurrentWeather(
