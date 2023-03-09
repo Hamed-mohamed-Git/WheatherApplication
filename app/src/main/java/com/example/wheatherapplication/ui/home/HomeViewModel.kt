@@ -9,6 +9,7 @@ import com.example.wheatherapplication.constants.Temperature
 import com.example.wheatherapplication.domain.model.WeatherData
 import com.example.wheatherapplication.domain.repository.OpenWeatherRepository
 import com.example.wheatherapplication.domain.usecase.GetDataStoreLocationData
+import com.example.wheatherapplication.domain.usecase.GetDataStoreSettingData
 import com.example.wheatherapplication.domain.usecase.GetWeatherData
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getWeatherData: GetWeatherData,
-    private val getDataStoreLocationData: GetDataStoreLocationData
+    private val getDataStoreLocationData: GetDataStoreLocationData,
+    private val getDataStoreSettingData: GetDataStoreSettingData
 ) : ViewModel() {
     private val _weatherInfo = MutableStateFlow(WeatherData())
     val weatherInfo = _weatherInfo
@@ -29,16 +31,19 @@ class HomeViewModel @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     fun getWeather(latLng: LatLng) {
         viewModelScope.launch(Dispatchers.IO) {
-            getWeatherData(
-                true, latLng.latitude,
-                latLng.longitude,
-                "metric",
-                Temperature.CELSIUS,
-                Temperature.CELSIUS,
-                LengthUnit.KILOMETER
-            ).collect {
-                _weatherInfo.emit(it)
+            getDataStoreSettingData().collect{
+                getWeatherData(
+                    true, latLng.latitude,
+                    latLng.longitude,
+                    "metric",
+                    Temperature.CELSIUS,
+                    enumValueOf(it.temperatureUnit),
+                    enumValueOf(it.lengthUnit)
+                ).collect {
+                    _weatherInfo.emit(it)
+                }
             }
+
 
         }
     }

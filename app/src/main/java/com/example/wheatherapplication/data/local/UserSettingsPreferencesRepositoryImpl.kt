@@ -19,15 +19,18 @@ class UserSettingsPreferencesRepositoryImpl @Inject constructor(
     override suspend fun setSettings(settings: WeatherSetting) =
         dataStore.edit {
             it[stringPreferencesKey(Constants.DEGREE_UNIT_DATASTORE_KEY)] =
-                settings.temperatureUnit.toString()
+                settings.temperatureUnit
             it[stringPreferencesKey(Constants.LENGTH_UNIT_DATASTORE_KEY)] =
-                settings.lengthUnit.toString()
+                settings.lengthUnit
+            it[stringPreferencesKey(Constants.LANGUAGE_DATASTORE_KEY)] =
+                settings.language
         }
 
     override suspend fun getSettings() = dataStore.data.map {
         WeatherSetting(
-            it[stringPreferencesKey(Constants.DEGREE_UNIT_DATASTORE_KEY)] as Temperature,
-            it[stringPreferencesKey(Constants.LENGTH_UNIT_DATASTORE_KEY)] as LengthUnit
+            it[stringPreferencesKey(Constants.DEGREE_UNIT_DATASTORE_KEY)].toString(),
+            it[stringPreferencesKey(Constants.LENGTH_UNIT_DATASTORE_KEY)].toString(),
+            it[stringPreferencesKey(Constants.LANGUAGE_DATASTORE_KEY)].toString()
         )
     }
 }

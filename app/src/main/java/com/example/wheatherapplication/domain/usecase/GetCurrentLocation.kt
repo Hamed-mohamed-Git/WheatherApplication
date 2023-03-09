@@ -1,6 +1,7 @@
 package com.example.wheatherapplication.domain.usecase
 
 import android.annotation.SuppressLint
+import android.location.Location
 import com.google.android.gms.location.CurrentLocationRequest
 import com.google.android.gms.location.FusedLocationProviderClient
 import kotlinx.coroutines.tasks.await
@@ -11,7 +12,7 @@ class GetCurrentLocation @Inject constructor(
 ) {
 
     @SuppressLint("MissingPermission")
-    suspend operator fun invoke() =
+    suspend operator fun invoke():Location =
         fusedLocationProviderClient
             .getCurrentLocation(CurrentLocationRequest.Builder()
                 .build(),null)

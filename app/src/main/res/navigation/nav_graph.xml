@@ -38,5 +38,13 @@
     <fragment
         android:id="@+id/favouriteFragment"
         android:name="com.example.wheatherapplication.ui.favourite.FavouriteFragment"
-        android:label="FavouriteFragment" />
+        android:label="FavouriteFragment" >
+        <action
+            android:id="@+id/action_favouriteFragment_to_settingFragment"
+            app:destination="@id/settingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.example.wheatherapplication.ui.setting.SettingFragment"
+        android:label="SettingFragment" />
 </navigation>

@@ -67,10 +67,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/weathers_font"
-                    android:text="@{weatherData.current.temp + `°`}"
+                    android:text="@{weatherData.current.temp == null ? `--` : weatherData.current.temp + `°`}"
                     android:textSize="85sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.55"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView3" />
 

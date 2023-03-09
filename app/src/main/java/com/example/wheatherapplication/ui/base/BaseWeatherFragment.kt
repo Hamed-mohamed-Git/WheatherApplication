@@ -12,7 +12,7 @@ import com.example.wheatherapplication.databinding.FragmentBaseBinding
 import com.example.wheatherapplication.ui.common.BaseFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
+import java.util.*
 
 @AndroidEntryPoint
 class BaseWeatherFragment : BaseFragment<FragmentBaseBinding, BaseWeatherViewModel>() {
@@ -23,19 +23,21 @@ class BaseWeatherFragment : BaseFragment<FragmentBaseBinding, BaseWeatherViewMod
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getFavouriteWeathers()
-        lifecycleScope.launch {
+        viewModel.setSettings()
+        viewModel.getSettings()
+        lifecycleScope.launchWhenResumed {
             viewModel.favouriteWeathers.collect {
                 if (it.isNotEmpty()) {
                     binding.viewPager2.adapter = FavouriteWeatherViewPagerAdapter(
                         it,
-                        requireActivity().supportFragmentManager,
+                        parentFragmentManager,
                         lifecycle
                     )
                     TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
                         if (position == 0)
                             tab.icon =
                                 ContextCompat.getDrawable(requireContext(), R.drawable.navigation)
-                        else if (position in 1..7)
+                        else
                             tab.icon =
                                 ContextCompat.getDrawable(requireContext(), R.drawable.bullet)
                     }.attach()
@@ -43,12 +45,24 @@ class BaseWeatherFragment : BaseFragment<FragmentBaseBinding, BaseWeatherViewMod
 
             }
         }
+        lifecycleScope.launchWhenResumed {
+            viewModel.settings.collect {
+                Toast.makeText(context, it.temperatureUnit, Toast.LENGTH_LONG).show()
+            }
+        }
 
         binding.favouriteButton.setOnClickListener {
             findNavController().navigate(R.id.action_baseWeatherFragment_to_favouriteFragment)
         }
+
         binding.mapButton.setOnClickListener {
-            Toast.makeText(context, "hamed", Toast.LENGTH_LONG).show()
+            // Set the alarm to start at 8:30 a.m.
+            val calendar: Calendar = Calendar.getInstance().apply {
+                timeInMillis = System.currentTimeMillis()
+                set(Calendar.HOUR_OF_DAY, 20)
+                set(Calendar.MINUTE, 39)
+            }
+            viewModel.setAlarmTime(calendar)
         }
     }
 
