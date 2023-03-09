@@ -7,40 +7,40 @@ import com.example.wheatherapplication.data.remote.dto.WeatherItem
 
 
 data class WeatherData(
-    val current: CurrentWeather? = null,
+    var current: CurrentWeather? = null,
     val lon: Double? = null,
     val lat: Double? = null,
-    val daily: List<WeatherDailyItem?>? = null,
-    val hourly: List<WeatherHourlyItem?>? = null,
+    var daily: List<WeatherDailyItem?>? = null,
+    var hourly: List<WeatherHourlyItem?>? = null,
     val alerts: List<AlertsItem?>? = null,
     var address: AddressData? = null
 )
 
 data class CurrentWeather(
     val sunrise: String? = null,
-    val temp: String? = null,
-    val visibility: String? = null,
+    var temp: Int? = null,
+    var visibility: Int? = null,
     val uvi: String? = null,
     val clouds: String? = null,
-    val feelsLike: String? = null,
+    var feelsLike: Int? = null,
     val dt: String? = null,
-    val windDeg: String? = null,
-    val dewPoint: String? = null,
+    val windDeg: Int? = null,
+    var dewPoint: Int? = null,
     val sunset: String? = null,
     val weather: WeatherItem? = null,
     val humidity: String? = null,
-    val windSpeed: String? = null
+    var windSpeed: Int? = null
 )
 
 data class WeatherHourlyItem(
     val hour: String? = null,
-    val temp: String? = null,
+    var temp: Int? = null,
     val icon:String? = null
 )
 
 data class WeatherDailyItem(
     val day: String? = null,
-    val max: String? = null,
-    val min: String? = null,
+    var max: Int? = null,
+    var min: Int? = null,
     val icon:String? = null
 )

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.wheatherapplication.constants.Language
 import com.example.wheatherapplication.constants.LengthUnit
+import com.example.wheatherapplication.constants.LocationType
 import com.example.wheatherapplication.constants.Temperature
 import com.example.wheatherapplication.data.OpenWeatherRepositoryImpl
 import com.example.wheatherapplication.domain.model.AlertInformation
@@ -52,17 +53,7 @@ class BaseWeatherViewModel @Inject constructor(
         }
     }
 
-    fun setSettings() {
-        viewModelScope.launch {
-            setDataStoreSettingData(
-                WeatherSetting(
-                    Temperature.KELVIN.toString(),
-                    LengthUnit.KILOMETER.toString(),
-                    Language.ARABIC.toString()
-                )
-            )
-        }
-    }
+
 
     fun setAlarmTime(calendar: Calendar) {
         setAlarm(

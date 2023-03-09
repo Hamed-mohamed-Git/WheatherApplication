@@ -4,9 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.example.wheatherapplication.constants.Constants
-import com.example.wheatherapplication.constants.LengthUnit
-import com.example.wheatherapplication.constants.Temperature
+import com.example.wheatherapplication.constants.*
 import com.example.wheatherapplication.domain.model.WeatherSetting
 import com.example.wheatherapplication.domain.repository.UserSettingsPreferencesRepository
 import kotlinx.coroutines.flow.map
@@ -18,19 +16,22 @@ class UserSettingsPreferencesRepositoryImpl @Inject constructor(
 
     override suspend fun setSettings(settings: WeatherSetting) =
         dataStore.edit {
+            it[stringPreferencesKey(Constants.LOCATION_TYPE_DATASTORE_KEY)] =
+                settings.locationType.toString()
             it[stringPreferencesKey(Constants.DEGREE_UNIT_DATASTORE_KEY)] =
-                settings.temperatureUnit
+                settings.temperatureUnit.toString()
             it[stringPreferencesKey(Constants.LENGTH_UNIT_DATASTORE_KEY)] =
-                settings.lengthUnit
+                settings.lengthUnit.toString()
             it[stringPreferencesKey(Constants.LANGUAGE_DATASTORE_KEY)] =
-                settings.language
+                settings.language.toString()
         }
 
     override suspend fun getSettings() = dataStore.data.map {
         WeatherSetting(
-            it[stringPreferencesKey(Constants.DEGREE_UNIT_DATASTORE_KEY)].toString(),
-            it[stringPreferencesKey(Constants.LENGTH_UNIT_DATASTORE_KEY)].toString(),
-            it[stringPreferencesKey(Constants.LANGUAGE_DATASTORE_KEY)].toString()
+            enumValueOf<LocationType>(it[stringPreferencesKey(Constants.LOCATION_TYPE_DATASTORE_KEY)].toString()),
+            enumValueOf<Temperature>(it[stringPreferencesKey(Constants.DEGREE_UNIT_DATASTORE_KEY)].toString()),
+            enumValueOf<LengthUnit>(it[stringPreferencesKey(Constants.LENGTH_UNIT_DATASTORE_KEY)].toString()),
+            enumValueOf<Language>(it[stringPreferencesKey(Constants.LANGUAGE_DATASTORE_KEY)].toString())
         )
     }
 }

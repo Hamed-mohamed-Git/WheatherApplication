@@ -13,7 +13,7 @@ import javax.inject.Inject
 class GetWeatherData @Inject constructor(
     private val openWeatherRepositoryImpl: OpenWeatherRepositoryImpl
 ) {
-    @RequiresApi(Build.VERSION_CODES.O)
+
     suspend operator fun invoke(
         internetConnection: Boolean,
         lat: Double,

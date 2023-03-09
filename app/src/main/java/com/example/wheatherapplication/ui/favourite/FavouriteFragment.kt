@@ -156,6 +156,9 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
             searchedWeatherAnimation(binding.searchedWeatherCardView, 1430f, "translationY")
             Toast.makeText(context, "The location saved successfully", Toast.LENGTH_LONG).show()
         }
+        binding.notificationButton.setOnClickListener {
+            DeleteConfirmationFragmentDialog(this).show(parentFragmentManager,"")
+        }
     }
 
     private fun initializePlaces() {

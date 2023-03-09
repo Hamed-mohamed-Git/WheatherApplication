@@ -23,7 +23,6 @@ class BaseWeatherFragment : BaseFragment<FragmentBaseBinding, BaseWeatherViewMod
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getFavouriteWeathers()
-        viewModel.setSettings()
         viewModel.getSettings()
         lifecycleScope.launchWhenResumed {
             viewModel.favouriteWeathers.collect {
@@ -43,11 +42,6 @@ class BaseWeatherFragment : BaseFragment<FragmentBaseBinding, BaseWeatherViewMod
                     }.attach()
                 }
 
-            }
-        }
-        lifecycleScope.launchWhenResumed {
-            viewModel.settings.collect {
-                Toast.makeText(context, it.temperatureUnit, Toast.LENGTH_LONG).show()
             }
         }
 

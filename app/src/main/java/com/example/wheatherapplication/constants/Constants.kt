@@ -10,6 +10,7 @@ object Constants {
     const val DEGREE_UNIT_DATASTORE_KEY = "degreeUnit"
     const val LENGTH_UNIT_DATASTORE_KEY= "lengthUnit"
     const val LANGUAGE_DATASTORE_KEY= "language"
+    const val LOCATION_TYPE_DATASTORE_KEY= "location"
     const val API_UNIT_METRIC = "metric"
     const val API_UNIT_IMPERIAL = "imperial"
     const val DATE_HOUR_PATTERN = "hh a"

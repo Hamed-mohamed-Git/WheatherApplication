@@ -54,10 +54,12 @@ class OpenWeatherRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun insertFavouriteWeather(weatherData: WeatherData) =
+    override suspend fun insertFavouriteWeather(weatherData: WeatherData,currentTemperature: Temperature,
+                                                temperature: Temperature,
+                                                lengthUnit: LengthUnit) =
         favouriteWeatherDataDao.insertFavouriteWeather(
             FavouriteWeatherDataMapper.convertToFavouriteWeather(
-                weatherData
+                WeatherDataMapper.convertToWeatherData(weatherData,currentTemperature, temperature, lengthUnit)
             )
         )
 

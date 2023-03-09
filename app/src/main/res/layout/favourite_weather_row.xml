@@ -80,7 +80,7 @@
                 android:layout_marginTop="14dp"
                 android:layout_marginEnd="24dp"
                 android:fontFamily="@font/weathers_font"
-                android:text="@{weatherData.current.temp}"
+                android:text="@{weatherData.current.temp.toString()}"
                 android:textSize="35sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -28,7 +28,7 @@ class HomeViewModel @Inject constructor(
     val weatherInfo = _weatherInfo
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
     fun getWeather(latLng: LatLng) {
         viewModelScope.launch(Dispatchers.IO) {
             getDataStoreSettingData().collect{
@@ -37,10 +37,10 @@ class HomeViewModel @Inject constructor(
                     latLng.longitude,
                     "metric",
                     Temperature.CELSIUS,
-                    enumValueOf(it.temperatureUnit),
-                    enumValueOf(it.lengthUnit)
-                ).collect {
-                    _weatherInfo.emit(it)
+                    it.temperatureUnit ?: Temperature.CELSIUS,
+                    it.lengthUnit ?: LengthUnit.KILOMETER
+                ).collect {weather ->
+                    _weatherInfo.emit(weather)
                 }
             }
 
@@ -48,12 +48,5 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-//    fun getLocationWeather() {
-//        viewModelScope.launch {
-//            getDataStoreLocationData().collect {
-//                getWeather(it)
-//                getLocationInfo(it)
-//            }
-//        }
-//    }
+
 }

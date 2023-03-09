@@ -13,7 +13,9 @@ interface OpenWeatherRepository {
 
     suspend fun getForeCast(lat: Double, lng: Double): OpenWeatherForeCastDTO
     suspend fun getFavouriteWeathers(): Flow<List<WeatherData>>
-    suspend fun insertFavouriteWeather(weatherData: WeatherData)
+    suspend fun insertFavouriteWeather(weatherData: WeatherData,currentTemperature: Temperature,
+                                       temperature: Temperature,
+                                       lengthUnit: LengthUnit)
     suspend fun updateFavouriteWeather(weatherData: WeatherData)
     suspend fun deleteFavouriteWeather(weatherData: WeatherData)
 

@@ -36,7 +36,7 @@
     <string name="notifications">Notifications</string>
     <string name="settings">Settings</string>
     <string name="document_changed">Weather changed</string>
-    <string name="do_you_want_to_save_your_edits">Do you delete to save your edits?</string>
+    <string name="do_you_want_to_save_your_edits">Do you want to delete your edits?</string>
     <string name="ok">Ok</string>
     <string name="save">Delete</string>
     <string name="weather_desc">Get the weather forecast in a beautiful and powerful app.</string>
@@ -48,5 +48,9 @@
     <string name="version_v1_00_1535">Version V1.00 (1535)</string>
     <string name="about">about</string>
     <string name="weather_settings">weather Options</string>
+    <string name="arabic">Arabic</string>
+    <string name="english">English</string>
+    <string name="kilometer">KiloMeter</string>
+    <string name="mile">Mile</string>
 
 </resources>
