@@ -59,10 +59,10 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>(
                 }
 
                 when (it.lengthUnit) {
-                    LengthUnit.MILE -> {
+                    LengthUnit.MI -> {
                         binding.MileSwitch.isChecked = true
                     }
-                    LengthUnit.KILOMETER -> {
+                    LengthUnit.KM -> {
                         binding.KiloSwitch.isChecked = true
                     }
                     else -> {}
@@ -110,7 +110,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>(
                         WeatherSetting(
                             it.locationType,
                             it.temperatureUnit,
-                            LengthUnit.KILOMETER,
+                            LengthUnit.KM,
                             it.language
                         )
                     )
@@ -121,7 +121,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>(
                         WeatherSetting(
                             it.locationType,
                             it.temperatureUnit,
-                            LengthUnit.MILE,
+                            LengthUnit.MI,
                             it.language
                         )
                     )

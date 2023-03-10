@@ -1,4 +1,4 @@
-package com.example.wheatherapplication.ui.base.broadcast_receiver
+package com.example.wheatherapplication.ui.common.broadcast_receiver
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel

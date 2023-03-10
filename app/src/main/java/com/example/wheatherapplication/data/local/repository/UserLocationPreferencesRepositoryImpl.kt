@@ -1,10 +1,9 @@
-package com.example.wheatherapplication.data.local
+package com.example.wheatherapplication.data.local.repository
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.example.wheatherapplication.domain.model.WeatherSetting
 import com.example.wheatherapplication.domain.repository.UserLocationPreferencesRepository
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.flow.map

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.wheatherapplication.data.local.dao.FavouriteWeatherDataDao
 import com.example.wheatherapplication.data.local.AppDatabase
+import com.example.wheatherapplication.data.local.dao.FavouriteWeatherInformationDao
 import com.example.wheatherapplication.domain.model.WeatherData
 import dagger.Module
 import dagger.Provides
@@ -23,4 +24,9 @@ object DatabaseModule {
     @Provides
     fun provideFavouriteWeatherDataDao(appDatabase: AppDatabase): FavouriteWeatherDataDao =
         appDatabase.favouriteWeatherDataDao()
+
+
+    @Provides
+    fun provideFavouriteWeatherInfoDao(appDatabase: AppDatabase): FavouriteWeatherInformationDao =
+        appDatabase.favouriteWeatherInfoDao()
 }

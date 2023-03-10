@@ -17,7 +17,7 @@
         android:theme="@style/Theme.WheatherApplication"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main_Activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +31,20 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <receiver android:name=".ui.base.broadcast_receiver.AlarmReceiver"/>
+        <receiver android:name=".ui.common.broadcast_receiver.AlarmReceiver"/>
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <!-- If you are using androidx.startup to initialize other components -->
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
     </application>
+
 
 </manifest>

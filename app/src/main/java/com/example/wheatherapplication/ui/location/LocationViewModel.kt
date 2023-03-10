@@ -1,20 +1,17 @@
 package com.example.wheatherapplication.ui.location
 
-import android.location.Address
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.wheatherapplication.constants.*
+import com.example.wheatherapplication.data.local.FavouriteWeatherInformation
 import com.example.wheatherapplication.domain.model.AddressData
-import com.example.wheatherapplication.domain.usecase.GetCurrentLocation
-import com.example.wheatherapplication.domain.usecase.GetDataStoreLocationData
-import com.example.wheatherapplication.domain.usecase.GetGeoCoderLocation
-import com.example.wheatherapplication.domain.usecase.SetDataStoreLocationData
+import com.example.wheatherapplication.domain.model.WeatherSetting
+import com.example.wheatherapplication.domain.usecase.*
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,32 +20,60 @@ import javax.inject.Inject
 class LocationViewModel @Inject constructor(
     private val getCurrentLocation: GetCurrentLocation,
     private val getGeoCoderLocation: GetGeoCoderLocation,
-    private val setDataStoreLocationData: SetDataStoreLocationData
-):ViewModel() {
+    private val setDataStoreLocationData: SetDataStoreLocationData,
+    private val saveFavouriteWeatherInfo: SaveFavouriteWeatherInfo,
+    private val enqueueWeatherWorkManger: EnqueueWeatherWorkManger,
+    private val setDataStoreSettingData: SetDataStoreSettingData
+) : ViewModel() {
     val address = MutableLiveData<AddressData?>()
     val latLng = MutableLiveData<LatLng?>()
 
     private val _locationEventChannel = Channel<LocationEvent>()
     val locationEvent = _locationEventChannel.receiveAsFlow().asLiveData()
 
-    fun getGpsLocation(checkPermission:Boolean){
+    fun getGpsLocation(checkPermission: Boolean) {
         viewModelScope.launch {
             if (checkPermission) {
-                getCurrentLocation()?.apply {
-                    latLng.postValue(LatLng(this.latitude,this.longitude))
+                getCurrentLocation().apply {
+                    latLng.postValue(LatLng(this.latitude, this.longitude))
                 }
-            }
-            else
+            } else
                 _locationEventChannel.send(LocationEvent.LocationPermissionRequest)
 
         }
     }
 
-    fun convertLatLngToAddress(latLng: LatLng): Unit = address.postValue(getGeoCoderLocation(latLng))
+    fun convertLatLngToAddress(latLng: LatLng): Unit =
+        address.postValue(getGeoCoderLocation(latLng))
 
-    fun saveLatLng(latLng: LatLng?){
-        viewModelScope.launch{
-            setDataStoreLocationData(latLng ?: LatLng(0.0,0.0))
+    fun saveLatLng(latLng: LatLng?, locationType: LocationType) {
+        viewModelScope.launch {
+            setDataStoreSettingData(
+                WeatherSetting(
+                    locationType,
+                    Temperature.CELSIUS,
+                    LengthUnit.KM,
+                    Language.ENGLISH
+                )
+            )
+            with(latLng ?: LatLng(0.0, 0.0)) {
+                saveFavouriteWeatherInfo(
+                    FavouriteWeatherInformation(
+                        latitude.toString(),
+                        longitude.toString(),
+                        String().format(Constants.STANDARD_WORKER_ID, latitude, longitude),
+                        0L,
+                        0L
+                    )
+                )
+                enqueueWeatherWorkManger(
+                    12L,
+                    30,
+                    String().format(Constants.STANDARD_WORKER_ID, latitude, longitude)
+                )
+                setDataStoreLocationData(this)
+
+            }
         }
     }
 

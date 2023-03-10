@@ -13,10 +13,10 @@ object LengthUnitMapper {
 
     fun convertTo(currentLengthUnit: LengthUnit, length: Double?): Double =
         when (currentLengthUnit) {
-            LengthUnit.MILE -> {
+            LengthUnit.MI -> {
                 convertKiloMeterToMile(length ?: 0.0)
             }
-            LengthUnit.KILOMETER -> {
+            LengthUnit.KM -> {
                 convertMileToKiloMeter(length ?: 0.0)
             }
         }

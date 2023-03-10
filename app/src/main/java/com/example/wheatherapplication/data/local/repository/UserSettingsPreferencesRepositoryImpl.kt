@@ -1,4 +1,4 @@
-package com.example.wheatherapplication.data.local
+package com.example.wheatherapplication.data.local.repository
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences

@@ -19,7 +19,8 @@ object FavouriteWeatherDataMapper {
 
     fun convertToFavouriteWeather(weatherData: WeatherData?): FavouriteWeather =
         FavouriteWeather(
-            "${weatherData?.lat}-${weatherData?.lon}",
+            weatherData?.lat.toString(),
+            weatherData?.lon.toString(),
             convertToJson(weatherData)
         )
 

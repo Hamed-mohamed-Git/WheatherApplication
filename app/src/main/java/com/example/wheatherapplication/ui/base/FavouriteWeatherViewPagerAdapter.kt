@@ -19,10 +19,11 @@ class FavouriteWeatherViewPagerAdapter(
     override fun getItemCount(): Int = favouriteWeatherList.size
 
     override fun createFragment(position: Int): Fragment = HomeFragment(
-       ).apply {
-        arguments = bundleOf("lat" to WeatherLatLng(
-            favouriteWeatherList[position].lat ?:0.0,
-            favouriteWeatherList[position].lon ?:0.0
-        ))
+    ).apply {
+        arguments = bundleOf(
+            "lat" to (favouriteWeatherList[position].lat ?: 0.0),
+            "lon" to (favouriteWeatherList[position].lon ?: 0.0),
+            "flag" to true
+        )
     }
 }

@@ -28,5 +28,8 @@ interface OpenWeatherRepository {
         lengthUnit: LengthUnit
     ): WeatherData
 
-    suspend fun getFavouriteWeather(id: String): Flow<WeatherData>
+    suspend fun getFavouriteWeather(lat: Double, currentTemperature: Temperature,
+                                    temperature: Temperature,
+                                    lengthUnit: LengthUnit): Flow<WeatherData>
+    suspend fun checkFounded(id: String): Int?
 }

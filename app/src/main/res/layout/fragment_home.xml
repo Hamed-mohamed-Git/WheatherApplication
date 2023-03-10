@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="com.example.wheatherapplication.constants.LengthUnit"/>
         <variable
             name="viewModel"
             type="com.example.wheatherapplication.ui.home.HomeViewModel" />
@@ -24,6 +24,10 @@
         <variable
             name="address"
             type="com.example.wheatherapplication.domain.model.AddressData" />
+
+        <variable
+            name="settings"
+            type="com.example.wheatherapplication.domain.model.WeatherSetting" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -438,7 +442,7 @@
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="16dp"
                             android:layout_marginBottom="16dp"
-                            android:text="@string/wind_unit"
+                            app:titleText="@{settings.lengthUnit}"
                             android:textSize="15sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -639,28 +643,27 @@
 
                         <TextView
                             android:id="@+id/visibilityTextView"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="18dp"
-                            android:layout_marginEnd="16dp"
                             android:fontFamily="@font/weathers_font"
                             android:text="@{weatherData.current.visibility.toString()}"
                             android:textColor="@color/black"
                             android:textSize="30sp"
                             android:textStyle="bold"
-                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/visibilityHeader" />
+                            app:layout_constraintTop_toBottomOf="@+id/visibilityHeader"
+                            app:layout_constraintWidth_percent="0.4" />
 
                         <TextView
                             android:id="@+id/visibilityDescriptionTextView"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-                            android:layout_marginTop="24dp"
+                            android:layout_marginTop="16dp"
                             android:layout_marginEnd="16dp"
-                            android:layout_marginBottom="26dp"
+                            android:layout_marginBottom="20dp"
                             android:text="@{weatherData.current.weather.description}"
                             android:textSize="15sp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -669,6 +672,20 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/visibilityTextView"
                             app:layout_constraintVertical_bias="0.0" />
+
+                        <TextView
+                            android:id="@+id/textView21"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="25dp"
+                            android:layout_marginEnd="8dp"
+                            app:layout_constraintBottom_toTopOf="@+id/visibilityDescriptionTextView"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/visibilityTextView"
+                            app:layout_constraintTop_toBottomOf="@+id/visibilityHeader"
+                            app:layout_constraintVertical_bias="0.0"
+                            app:titleText="@{settings.lengthUnit}" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>

@@ -8,9 +8,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.animation.doOnEnd
-import androidx.core.animation.doOnStart
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.wheatherapplication.R
@@ -18,23 +18,24 @@ import com.example.wheatherapplication.constants.Constants
 import com.example.wheatherapplication.databinding.FragmentFavouriteBinding
 import com.example.wheatherapplication.domain.model.WeatherData
 import com.example.wheatherapplication.domain.model.WeatherLatLng
+import com.example.wheatherapplication.ui.common.navigation.NavGraphViewModel
 import com.example.wheatherapplication.ui.common.BaseFragment
-import com.example.wheatherapplication.ui.common.DeleteConfirmationFragmentDialog
-import com.example.wheatherapplication.ui.common.DeleteFragmentConfirmationListener
+import com.example.wheatherapplication.ui.common.navigation.DialogEventResult
 import com.example.wheatherapplication.ui.home.HomeFragment
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewModel>(),
-    FavouriteWeatherListener, DeleteFragmentConfirmationListener {
+class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewModel>(), FavouriteWeatherListener{
     override val viewModel: FavouriteViewModel by viewModels()
+    private val navViewModel: NavGraphViewModel by hiltNavGraphViewModels(R.id.nav_graph)
     override val layoutRes: Int = R.layout.fragment_favourite
     private lateinit var homeFragment: HomeFragment
     private val deletedWeather: MutableList<WeatherData> = mutableListOf()
@@ -52,7 +53,7 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
                             -1430f,
                             "translationY"
                         ).doOnEnd {
-                            initializeWeatherFragment(latLng.latitude, latLng.longitude)
+                            initializeWeatherFragment(latLng.latitude, latLng.longitude,false)
                             binding.addButton.visibility = View.VISIBLE
                         }
 
@@ -65,6 +66,16 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
+            navViewModel.eventResult.onEach {
+                when(it){
+                    is DialogEventResult.OnCLickCanceled -> {
+                        Toast.makeText(context, "hamed", Toast.LENGTH_LONG).show()
+                    }
+                    else ->{}
+                }
+            }.launchIn(this)
+
+
             viewModel.getFavouriteWeathers()
             viewModel.favouriteWeathers.collect { weatherDataList ->
                 if (deletedVisible == null) {
@@ -157,7 +168,9 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
             Toast.makeText(context, "The location saved successfully", Toast.LENGTH_LONG).show()
         }
         binding.notificationButton.setOnClickListener {
-            DeleteConfirmationFragmentDialog(this).show(parentFragmentManager,"")
+            viewModel.enqueueAlert(15)
+            //findNavController().navigate(FavouriteFragmentDirections.actionFavouriteFragmentToDeleteConfirmationFragmentDialog())
+            //DeleteConfirmationFragmentDialog(this).show(parentFragmentManager,"")
         }
     }
 
@@ -183,9 +196,9 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
             start()
         }
 
-    private fun initializeWeatherFragment(lat: Double?, lon: Double?) {
+    private fun initializeWeatherFragment(lat: Double?, lon: Double?,flag:Boolean) {
         homeFragment = HomeFragment().apply {
-            arguments = bundleOf("lat" to WeatherLatLng(lat, lon))
+            arguments = bundleOf("lat" to lat,"lon" to lon,"flag" to flag)
         }
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(binding.searchedWeather.id, homeFragment).commit()
@@ -196,17 +209,13 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
             binding.settingsCardView.visibility = View.GONE
         }
         searchedWeatherAnimation(binding.searchedWeatherCardView, -1430f, "translationY").doOnEnd {
-            initializeWeatherFragment(lat, lon)
+            initializeWeatherFragment(lat, lon,true)
             binding.addButton.visibility = View.GONE
         }
     }
 
     override fun onDeleteFavouriteWeatherClick(weatherData: WeatherData) {
         deletedWeather.add(weatherData)
-        Toast.makeText(context, "hamed", Toast.LENGTH_LONG).show()
-    }
-
-    override fun onConfirmationDelete() {
         Toast.makeText(context, "hamed", Toast.LENGTH_LONG).show()
     }
 

@@ -12,6 +12,8 @@ import com.example.wheatherapplication.databinding.FragmentBaseBinding
 import com.example.wheatherapplication.ui.common.BaseFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.util.*
 
 @AndroidEntryPoint
@@ -25,11 +27,11 @@ class BaseWeatherFragment : BaseFragment<FragmentBaseBinding, BaseWeatherViewMod
         viewModel.getFavouriteWeathers()
         viewModel.getSettings()
         lifecycleScope.launchWhenResumed {
-            viewModel.favouriteWeathers.collect {
+            viewModel.favouriteWeathers.onEach {
                 if (it.isNotEmpty()) {
                     binding.viewPager2.adapter = FavouriteWeatherViewPagerAdapter(
                         it,
-                        parentFragmentManager,
+                        childFragmentManager,
                         lifecycle
                     )
                     TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
@@ -41,8 +43,7 @@ class BaseWeatherFragment : BaseFragment<FragmentBaseBinding, BaseWeatherViewMod
                                 ContextCompat.getDrawable(requireContext(), R.drawable.bullet)
                     }.attach()
                 }
-
-            }
+            }.launchIn(this)
         }
 
         binding.favouriteButton.setOnClickListener {

@@ -2,14 +2,11 @@ package com.example.wheatherapplication.ui.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.wheatherapplication.constants.Language
-import com.example.wheatherapplication.constants.LengthUnit
-import com.example.wheatherapplication.constants.LocationType
-import com.example.wheatherapplication.constants.Temperature
-import com.example.wheatherapplication.data.OpenWeatherRepositoryImpl
+import com.example.wheatherapplication.data.repository.OpenWeatherRepositoryImpl
 import com.example.wheatherapplication.domain.model.AlertInformation
 import com.example.wheatherapplication.domain.model.WeatherData
 import com.example.wheatherapplication.domain.model.WeatherSetting
+import com.example.wheatherapplication.domain.usecase.GetAllFavouriteWeathers
 import com.example.wheatherapplication.domain.usecase.GetDataStoreSettingData
 import com.example.wheatherapplication.domain.usecase.SetAlarm
 import com.example.wheatherapplication.domain.usecase.SetDataStoreSettingData
@@ -23,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BaseWeatherViewModel @Inject constructor(
-    private val openWeatherRepositoryImpl: OpenWeatherRepositoryImpl,
+    private val getAllFavouriteWeathers: GetAllFavouriteWeathers,
     private val getDataStoreSettingData: GetDataStoreSettingData,
     private val setDataStoreSettingData: SetDataStoreSettingData,
     private val setAlarm: SetAlarm
@@ -38,7 +35,7 @@ class BaseWeatherViewModel @Inject constructor(
 
     fun getFavouriteWeathers() {
         viewModelScope.launch {
-            openWeatherRepositoryImpl.getFavouriteWeathers().collect {
+            getAllFavouriteWeathers().collect{
                 _favouriteWeathers.emit(it)
             }
         }
@@ -46,7 +43,8 @@ class BaseWeatherViewModel @Inject constructor(
 
     fun getSettings() {
         viewModelScope.launch {
-            getDataStoreSettingData().collect {
+            getDataStoreSettingData()
+                .collect {
                 _settings.emit(it)
             }
 

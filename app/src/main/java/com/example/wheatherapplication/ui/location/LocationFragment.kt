@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.wheatherapplication.R
 import com.example.wheatherapplication.constants.Constants
+import com.example.wheatherapplication.constants.LocationType
 import com.example.wheatherapplication.databinding.FragmentLocationBinding
 import com.example.wheatherapplication.ui.common.BaseFragment
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -37,6 +38,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding, LocationViewModel
     private lateinit var mapFragment: SupportMapFragment
     private lateinit var placeFragment: AutocompleteSupportFragment
     private var latLng: LatLng? = null
+    private lateinit var locationType: LocationType
     override val viewModel: LocationViewModel by viewModels()
     override val layoutRes: Int = R.layout.fragment_location
 
@@ -66,6 +68,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding, LocationViewModel
                 val data: Intent? = result.data
                 data?.let {
                     Autocomplete.getPlaceFromIntent(it).latLng?.let {
+                        locationType = LocationType.GPS
                         viewModel.latLng.postValue(Autocomplete.getPlaceFromIntent(data).latLng)
                     }
                 }
@@ -79,7 +82,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding, LocationViewModel
         initializePlaces()
         binding.setupButton.setOnClickListener {
             latLng?.let {
-                viewModel.saveLatLng(it)
+                viewModel.saveLatLng(it,locationType)
                 findNavController().navigate(R.id.action_locationFragment_to_baseWeatherFragment)
             }
         }
@@ -125,6 +128,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding, LocationViewModel
             it?.apply {
                 viewModel.convertLatLngToAddress(it)
                 this@LocationFragment.latLng = this
+                locationType = LocationType.GOOGLE_MAP
                 googleMap.clear()
                 googleMap.addMarker(MarkerOptions().position(it))
                 googleMap.moveCamera(

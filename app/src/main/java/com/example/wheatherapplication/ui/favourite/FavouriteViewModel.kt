@@ -4,11 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.wheatherapplication.constants.LengthUnit
 import com.example.wheatherapplication.constants.Temperature
+import com.example.wheatherapplication.data.local.FavouriteWeatherInformation
+import com.example.wheatherapplication.data.map.WeatherDataMapper
 import com.example.wheatherapplication.domain.model.WeatherData
-import com.example.wheatherapplication.domain.usecase.DeleteWeatherData
-import com.example.wheatherapplication.domain.usecase.GetAllFavouriteWeathers
-import com.example.wheatherapplication.domain.usecase.GetDataStoreSettingData
-import com.example.wheatherapplication.domain.usecase.SaveWeatherData
+import com.example.wheatherapplication.domain.usecase.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -16,10 +15,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavouriteViewModel @Inject constructor(
-    private val saveWeatherData: SaveWeatherData,
+    private val saveWeatherData: SaveFavouriteWeatherData,
     private val deleteWeatherData: DeleteWeatherData,
+    private val saveFavouriteWeatherInfo: SaveFavouriteWeatherInfo,
     private val getAllFavouriteWeathers: GetAllFavouriteWeathers,
-    private val getDataStoreSettingData: GetDataStoreSettingData
+    private val getDataStoreSettingData: GetDataStoreSettingData,
+    private val enqueueWarningAlertWorkManger: EnqueueWarningAlertWorkManger
 ) : ViewModel() {
 
     private val _favouriteWeathers: MutableStateFlow<List<WeatherData>> =
@@ -28,9 +29,19 @@ class FavouriteViewModel @Inject constructor(
 
     fun getFavouriteWeathers() {
         viewModelScope.launch {
-            getAllFavouriteWeathers().collect {
-                _favouriteWeathers.emit(it)
+            getDataStoreSettingData().collect {
+                getAllFavouriteWeathers().collect { list ->
+                    _favouriteWeathers.emit(
+                        WeatherDataMapper.convertTListWeatherData(
+                            list,
+                            Temperature.CELSIUS,
+                            it.temperatureUnit ?: Temperature.CELSIUS,
+                            it.lengthUnit ?: LengthUnit.KM
+                        )
+                    )
+                }
             }
+
         }
     }
 
@@ -41,8 +52,18 @@ class FavouriteViewModel @Inject constructor(
                     weatherData,
                     it.temperatureUnit ?: Temperature.CELSIUS,
                     Temperature.CELSIUS,
-                    it.lengthUnit ?: LengthUnit.KILOMETER
+                    it.lengthUnit ?: LengthUnit.KM
                 )
+                saveFavouriteWeatherInfo(
+                    FavouriteWeatherInformation(
+                        weatherData.lat.toString(),
+                        weatherData.lon.toString(),
+                        "",
+                        0L,
+                        0L
+                    )
+                )
+                getFavouriteWeathers()
             }
 
         }
@@ -54,5 +75,9 @@ class FavouriteViewModel @Inject constructor(
                 deleteWeatherData(weatherDataList[it])
             }
         }
+    }
+
+    fun enqueueAlert(interval:Long){
+        enqueueWarningAlertWorkManger(interval)
     }
 }

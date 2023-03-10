@@ -5,8 +5,18 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity
+@Entity(primaryKeys = ["lat", "lng"])
 data class FavouriteWeather(
-    @PrimaryKey val latLngID: String,
+    @ColumnInfo("lat") val lat:String,
+    @ColumnInfo("lng") val lng:String,
     @ColumnInfo(name = "weather") val weather: String?,
+)
+
+@Entity(primaryKeys = ["lat", "lng"])
+data class FavouriteWeatherInformation(
+    @ColumnInfo("lat") val lat:String,
+    @ColumnInfo("lng") val lng:String,
+    @ColumnInfo("workMangerID") val workID:String?,
+    @ColumnInfo("alertStart") val alertStart:Long?,
+    @ColumnInfo("alertEnd") val alertEnd:Long?
 )

@@ -1,4 +1,4 @@
-package com.example.wheatherapplication.ui.common
+package com.example.wheatherapplication.ui.common.dialogs
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -8,12 +8,17 @@ import android.graphics.drawable.InsetDrawable
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.example.wheatherapplication.R
 import com.example.wheatherapplication.databinding.DeleteConfermationBinding
+import com.example.wheatherapplication.ui.common.navigation.DialogEvent
+import com.example.wheatherapplication.ui.common.navigation.NavGraphViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class DeleteConfirmationFragmentDialog(
-    private val deleteFragmentConfirmationListener: DeleteFragmentConfirmationListener
-) : DialogFragment() {
+@AndroidEntryPoint
+class DeleteConfirmationFragmentDialog() : DialogFragment() {
+    private val navViewModel: NavGraphViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = activity?.let {
         val builder = AlertDialog.Builder(context)
         builder.setView(
@@ -24,7 +29,7 @@ class DeleteConfirmationFragmentDialog(
                 false
             ).apply {
                 saveButton.setOnClickListener {
-                    deleteFragmentConfirmationListener.onConfirmationDelete()
+                    navViewModel.onEvent(DialogEvent.OnDeleted)
                     dismiss()
                 }
                 cancelButton.setOnClickListener {

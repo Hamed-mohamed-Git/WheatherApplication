@@ -1,7 +1,5 @@
 package com.example.wheatherapplication.constants
 
-import com.example.wheatherapplication.R
-
 object Constants {
     const val APP_API_KEY = "c81f23105bfe2dd63e96c86dfa6c0952"
     const val API_BASE_URL = "https://api.openweathermap.org/data/"
@@ -18,6 +16,8 @@ object Constants {
     const val FULL_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss"
     const val BROADCAST_RECEIVER_INTENT_KEY = "intent_cast"
     const val BROADCAST_RECEIVER_CHANNEL_ID = "ALERT"
+    const val STANDARD_WORKER_ID = "ID-%s-%s"
+    const val STANDARD_FAVOURITE_WEATHER_ID = "%s-%s"
 }
 
 enum class Temperature{
@@ -27,8 +27,8 @@ enum class Temperature{
 }
 
 enum class LengthUnit{
-    MILE,
-    KILOMETER
+    MI,
+    KM
 }
 
 enum class Language{

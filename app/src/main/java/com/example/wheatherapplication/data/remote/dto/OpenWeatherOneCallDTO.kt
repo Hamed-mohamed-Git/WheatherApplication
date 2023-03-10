@@ -274,6 +274,6 @@ data class MinutelyItem(
 	val dt: Int? = null,
 
 	@field:SerializedName("precipitation")
-	val precipitation: Int? = null
+	val precipitation: Any? = null
 )
 

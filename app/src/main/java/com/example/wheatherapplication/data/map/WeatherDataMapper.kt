@@ -11,7 +11,19 @@ import com.example.wheatherapplication.domain.model.*
 
 object WeatherDataMapper {
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    fun convertTListWeatherData(
+        weatherDataList: List<WeatherData>, currentTemperature: Temperature,
+        temperature: Temperature,
+        lengthUnit: LengthUnit
+    ):List<WeatherData> {
+        val weathersData: MutableList<WeatherData> = mutableListOf()
+        repeat(weatherDataList.size) {
+            weathersData.add(convertToWeatherData(weatherDataList[it],currentTemperature,temperature,lengthUnit))
+        }
+
+        return weathersData.toList()
+    }
+
     fun convertToWeatherData(
         openWeatherOneCallDTO: OpenWeatherOneCallDTO,
         currentTemperature: Temperature,
@@ -39,23 +51,38 @@ object WeatherDataMapper {
         )
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun convertToWeatherData(
         weatherData: WeatherData,
         currentTemperature: Temperature,
         temperature: Temperature,
         lengthUnit: LengthUnit
-    ): WeatherData =
-        weatherData.let {
-            it.current = convertCurrentToCurrentWeather(
-                it.current,
-                currentTemperature,
-                temperature,
-                lengthUnit
+    ): WeatherData {
+        with(weatherData) {
+
+            return WeatherData(
+                current = convertCurrentToCurrentWeather(
+                    current,
+                    currentTemperature,
+                    temperature,
+                    lengthUnit
+                ),
+                daily = convertWeatherToWeatherDailyList(
+                    daily!!.toMutableList(),
+                    currentTemperature,
+                    temperature
+                ),
+                hourly = convertWeatherToWeatherHourlyList(
+                    hourly!!.toMutableList(),
+                    currentTemperature,
+                    temperature
+                ),
+                lon = lon,
+                lat = lat,
+                alerts = alerts,
+                address = address
             )
-            it.daily = convertWeatherToWeatherDailyList(it.daily!!.toMutableList(),currentTemperature, temperature)
-            it.hourly = convertWeatherToWeatherHourlyList(it.hourly!!.toMutableList(),currentTemperature, temperature)
-        } as WeatherData
+        }
+    }
 
 
     private fun convertToCurrentWeather(
@@ -106,15 +133,35 @@ object WeatherDataMapper {
         temperature: Temperature,
         lengthUnit: LengthUnit
     ): CurrentWeather {
-        return current?.let {
-            it.visibility = LengthUnitMapper.convertTo(lengthUnit, it.visibility?.toDouble()).toInt()
-            it.dewPoint =
-                TemperatureMapper.convertDegreeTo(currentTemperature, temperature, it.dewPoint?.toDouble()).toInt()
-            it.temp = TemperatureMapper.convertDegreeTo(currentTemperature, temperature, it.temp?.toDouble()).toInt()
-            it.windSpeed = LengthUnitMapper.convertTo(lengthUnit, it.windSpeed?.toDouble()).toInt()
-            it.feelsLike =
-                TemperatureMapper.convertDegreeTo(currentTemperature, temperature, it.feelsLike?.toDouble()).toInt()
-        } as CurrentWeather
+        with(current ?: CurrentWeather()) {
+            return CurrentWeather(
+                visibility = LengthUnitMapper.convertTo(lengthUnit, visibility?.toDouble()).toInt(),
+                dewPoint = TemperatureMapper.convertDegreeTo(
+                    currentTemperature,
+                    temperature,
+                    dewPoint?.toDouble()
+                ).toInt(),
+                temp = TemperatureMapper.convertDegreeTo(
+                    currentTemperature,
+                    temperature,
+                    temp?.toDouble()
+                ).toInt(),
+                windSpeed = LengthUnitMapper.convertTo(lengthUnit, windSpeed?.toDouble()).toInt(),
+                feelsLike = TemperatureMapper.convertDegreeTo(
+                    currentTemperature,
+                    temperature,
+                    feelsLike?.toDouble()
+                ).toInt(),
+                uvi = uvi,
+                windDeg = windDeg,
+                sunrise = sunrise,
+                sunset = sunset,
+                humidity = humidity,
+                weather = weather,
+                dt = dt,
+                clouds = clouds
+            )
+        }
     }
 
 
@@ -126,20 +173,30 @@ object WeatherDataMapper {
             if (index > 0) TimeMapper.convertTimeStampToHour(hourlyItem.dt?.toLong())
                 .trimStart('0')
             else "Now",
-            TemperatureMapper.convertDegreeTo(currentTemperature, temperature, hourlyItem.temp).toInt(),
+            TemperatureMapper.convertDegreeTo(currentTemperature, temperature, hourlyItem.temp)
+                .toInt(),
             "${Constants.API_ICON_URL}${hourlyItem.weather?.get(0)?.icon}@2x.png"
         )
 
     private fun convertToWeatherHourlyItem(
         hourlyItem: WeatherHourlyItem, index: Int, currentTemperature: Temperature,
         temperature: Temperature,
-    ): WeatherHourlyItem = hourlyItem.let {
-        it.temp = TemperatureMapper.convertDegreeTo(currentTemperature, temperature, it.temp?.toDouble()).toInt()
-    } as WeatherHourlyItem
+    ): WeatherHourlyItem {
+        with(hourlyItem) {
+            return WeatherHourlyItem(
+                temp = TemperatureMapper.convertDegreeTo(
+                    currentTemperature,
+                    temperature,
+                    temp?.toDouble()
+                ).toInt(),
+                hour = hour,
+                icon = icon
+            )
+        }
+    }
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun convertToWeatherDailyItem(
+    private fun convertToWeatherDailyItem(
         dailyItem: DailyItem, index: Int, currentTemperature: Temperature,
         temperature: Temperature,
     ) =
@@ -164,16 +221,32 @@ object WeatherDataMapper {
         )
 
 
-    fun convertToWeatherDailyItem(
+    private fun convertToWeatherDailyItem(
         dailyItem: WeatherDailyItem, index: Int, currentTemperature: Temperature,
         temperature: Temperature,
-    ): WeatherDailyItem = dailyItem.let {
-        it.max = TemperatureMapper.convertDegreeTo(currentTemperature, temperature, it.max?.toDouble()).toInt()
-        it.min = TemperatureMapper.convertDegreeTo(currentTemperature, temperature, it.min?.toDouble()).toInt()
-    } as WeatherDailyItem
+    ): WeatherDailyItem {
+        with(dailyItem) {
+            return WeatherDailyItem(
+                max =
+                TemperatureMapper.convertDegreeTo(
+                    currentTemperature,
+                    temperature,
+                    max?.toDouble()
+                )
+                    .toInt(),
+                min =
+                TemperatureMapper.convertDegreeTo(
+                    currentTemperature,
+                    temperature,
+                    min?.toDouble()
+                ).toInt(),
+                day = day,
+                icon = icon
+            )
+        }
+    }
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun convertToWeatherHourlyList(
         hourlyList: List<HourlyItem?>?, currentTemperature: Temperature,
         temperature: Temperature,
@@ -197,21 +270,26 @@ object WeatherDataMapper {
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun convertWeatherToWeatherHourlyList(
         hourlyList: MutableList<WeatherHourlyItem?>, currentTemperature: Temperature,
         temperature: Temperature,
     ): List<WeatherHourlyItem> {
-        hourlyList.let {
-            repeat(hourlyList.size) { index ->
-                hourlyList[index] = convertToWeatherHourlyItem(hourlyList[index]!!,index, currentTemperature, temperature)
-            }
+        val hourly: MutableList<WeatherHourlyItem> = mutableListOf()
+        repeat(hourlyList.size) { index ->
+            hourly.add(
+                convertToWeatherHourlyItem(
+                    hourlyList[index]!!,
+                    index,
+                    currentTemperature,
+                    temperature
+                )
+            )
         }
-        return hourlyList.toList() as List<WeatherHourlyItem>
+        return hourly.toList()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun convertToWeatherDailyList(
+
+    private fun convertToWeatherDailyList(
         dailyList: List<DailyItem?>?, currentTemperature: Temperature,
         temperature: Temperature,
     ): List<WeatherDailyItem> {
@@ -234,17 +312,24 @@ object WeatherDataMapper {
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun convertWeatherToWeatherDailyList(
+    private fun convertWeatherToWeatherDailyList(
         dailyList: MutableList<WeatherDailyItem?>, currentTemperature: Temperature,
         temperature: Temperature,
     ): List<WeatherDailyItem> {
-        dailyList.let {
-            repeat(dailyList.size) { index ->
-                dailyList[index] = convertToWeatherDailyItem(dailyList[index]!!, index, currentTemperature, temperature)
+        val daily: MutableList<WeatherDailyItem> = mutableListOf()
+        with(dailyList) {
+            repeat(size) { index ->
+                daily.add(
+                    convertToWeatherDailyItem(
+                        dailyList[index]!!,
+                        index,
+                        currentTemperature,
+                        temperature
+                    )
+                )
             }
         }
-        return dailyList.toList() as List<WeatherDailyItem>
+        return daily.toList()
     }
 
 
