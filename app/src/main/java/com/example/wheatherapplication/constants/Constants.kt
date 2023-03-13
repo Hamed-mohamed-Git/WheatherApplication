@@ -9,6 +9,7 @@ object Constants {
     const val LENGTH_UNIT_DATASTORE_KEY= "lengthUnit"
     const val LANGUAGE_DATASTORE_KEY= "language"
     const val LOCATION_TYPE_DATASTORE_KEY= "location"
+    const val NOTIFICATION_PERMISSION_TYPE_DATASTORE_KEY= "permission"
     const val API_UNIT_METRIC = "metric"
     const val API_UNIT_IMPERIAL = "imperial"
     const val DATE_HOUR_PATTERN = "hh a"
@@ -16,6 +17,7 @@ object Constants {
     const val FULL_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss"
     const val BROADCAST_RECEIVER_INTENT_KEY = "intent_cast"
     const val BROADCAST_RECEIVER_CHANNEL_ID = "ALERT"
+    const val WORK_MANGER_ALERT_TAG_NAME = "alert"
     const val STANDARD_WORKER_ID = "ID-%s-%s"
     const val STANDARD_FAVOURITE_WEATHER_ID = "%s-%s"
 }

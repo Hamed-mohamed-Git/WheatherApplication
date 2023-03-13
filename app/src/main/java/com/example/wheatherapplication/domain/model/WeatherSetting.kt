@@ -7,6 +7,7 @@ import com.example.wheatherapplication.constants.Temperature
 
 
 data class WeatherSetting(
+    val notificationPermission:Boolean? = null,
     val locationType: LocationType? = null,
     var temperatureUnit:Temperature? = null,
     val lengthUnit:LengthUnit? = null,

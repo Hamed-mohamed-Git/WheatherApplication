@@ -6,10 +6,14 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.wheatherapplication.constants.Constants
 import com.example.wheatherapplication.constants.LengthUnit
+import com.example.wheatherapplication.constants.LocationType
 import com.example.wheatherapplication.constants.Temperature
+import com.example.wheatherapplication.data.local.FavouriteWeatherInformation
 import com.example.wheatherapplication.domain.usecase.*
+import com.google.android.gms.maps.model.LatLng
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.collect
 
 
 @HiltWorker

@@ -1,8 +1,13 @@
 package com.example.wheatherapplication.ui.setting
 
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.wheatherapplication.R
@@ -14,17 +19,35 @@ import com.example.wheatherapplication.databinding.FragmentSettingBinding
 import com.example.wheatherapplication.domain.model.WeatherSetting
 import com.example.wheatherapplication.ui.common.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>() {
     override val viewModel: SettingsViewModel by viewModels()
     override val layoutRes: Int = R.layout.fragment_setting
+    private val locationPermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        when {
+            permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false || permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+
+            }
+            else -> {
+                // No location access granted.
+                Toast.makeText(
+                    context,
+                    "you can use another way to get your location using map",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getSettings()
         initView()
-        lifecycleScope.launchWhenResumed {
+        lifecycleScope.launch {
             viewModel.setting.collect {
                 when (it.temperatureUnit) {
                     Temperature.CELSIUS -> {
@@ -67,11 +90,12 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>(
                     }
                     else -> {}
                 }
-                binding.celSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                binding.celSwitch.setOnCheckedChangeListener { _, _ ->
                     binding.fahrenheitSwitch.isChecked = false
                     binding.kelvinSwitch.isChecked = false
                     viewModel.setSettings(
                         WeatherSetting(
+                            it.notificationPermission,
                             it.locationType,
                             Temperature.CELSIUS,
                             it.lengthUnit,
@@ -79,11 +103,12 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>(
                         )
                     )
                 }
-                binding.kelvinSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                binding.kelvinSwitch.setOnCheckedChangeListener { _, _ ->
                     binding.fahrenheitSwitch.isChecked = false
                     binding.celSwitch.isChecked = false
                     viewModel.setSettings(
                         WeatherSetting(
+                            it.notificationPermission,
                             it.locationType,
                             Temperature.KELVIN,
                             it.lengthUnit,
@@ -92,11 +117,12 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>(
                     )
                 }
 
-                binding.fahrenheitSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                binding.fahrenheitSwitch.setOnCheckedChangeListener { _, _ ->
                     binding.celSwitch.isChecked = false
                     binding.kelvinSwitch.isChecked = false
                     viewModel.setSettings(
                         WeatherSetting(
+                            it.notificationPermission,
                             it.locationType,
                             Temperature.FAHRENHEIT,
                             it.lengthUnit,
@@ -104,10 +130,11 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>(
                         )
                     )
                 }
-                binding.KiloSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                binding.KiloSwitch.setOnCheckedChangeListener { _, _ ->
                     binding.MileSwitch.isChecked = false
                     viewModel.setSettings(
                         WeatherSetting(
+                            it.notificationPermission,
                             it.locationType,
                             it.temperatureUnit,
                             LengthUnit.KM,
@@ -115,10 +142,11 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>(
                         )
                     )
                 }
-                binding.MileSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                binding.MileSwitch.setOnCheckedChangeListener { _, _ ->
                     binding.KiloSwitch.isChecked = false
                     viewModel.setSettings(
                         WeatherSetting(
+                            it.notificationPermission,
                             it.locationType,
                             it.temperatureUnit,
                             LengthUnit.MI,
@@ -126,10 +154,11 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>(
                         )
                     )
                 }
-                binding.arabicSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                binding.arabicSwitch.setOnCheckedChangeListener { _, _ ->
                     binding.englishSwitch.isChecked = false
                     viewModel.setSettings(
                         WeatherSetting(
+                            it.notificationPermission,
                             it.locationType,
                             it.temperatureUnit,
                             it.lengthUnit,
@@ -137,10 +166,11 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>(
                         )
                     )
                 }
-                binding.englishSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                binding.englishSwitch.setOnCheckedChangeListener { _, _ ->
                     binding.arabicSwitch.isChecked = false
                     viewModel.setSettings(
                         WeatherSetting(
+                            it.notificationPermission,
                             it.locationType,
                             it.temperatureUnit,
                             it.lengthUnit,
@@ -148,10 +178,11 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>(
                         )
                     )
                 }
-                binding.googleMapSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                binding.googleMapSwitch.setOnCheckedChangeListener { _, _ ->
                     binding.locationSwitch.isChecked = false
                     viewModel.setSettings(
                         WeatherSetting(
+                            it.notificationPermission,
                             LocationType.GOOGLE_MAP,
                             it.temperatureUnit,
                             it.lengthUnit,
@@ -160,10 +191,11 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>(
                     )
                 }
 
-                binding.locationSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                binding.locationSwitch.setOnCheckedChangeListener { _, _ ->
                     binding.googleMapSwitch.isChecked = false
                     viewModel.setSettings(
                         WeatherSetting(
+                            it.notificationPermission,
                             LocationType.GPS,
                             it.temperatureUnit,
                             it.lengthUnit,
@@ -186,4 +218,22 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>(
         binding.KiloSwitch.isChecked = false
         binding.MileSwitch.isChecked = false
     }
+
+    private fun checkPermission(): Boolean = (ContextCompat.checkSelfPermission(
+        requireContext(),
+        Manifest.permission.ACCESS_COARSE_LOCATION
+    ) == PackageManager.PERMISSION_GRANTED) ||
+            (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+                    == PackageManager.PERMISSION_GRANTED)
+
+
+    private fun requestPermissions() = locationPermissionRequest.launch(
+        arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+    )
 }

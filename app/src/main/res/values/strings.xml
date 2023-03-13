@@ -52,5 +52,18 @@
     <string name="english">English</string>
     <string name="kilometer">KiloMeter</string>
     <string name="mile">Mile</string>
+    <string name="allow_notifications">Allow Notifications</string>
+    <string name="the_weather_app_needs_your_permission_to_send_you_notifications">The Weather app needs your permission to send you notifications.</string>
+    <string name="con">Continue</string>
+    <string name="not_now">Not Now</string>
+    <string name="weather_can_send_you_notifications_for_rain_snow_and_certain_relevant_severe_weather_alerts">Weather can send you notifications for rain, snow, and certain relevant severe weather alerts.</string>
+    <string name="if_you_enable_severe_weather_notifications_the_app_can_associate_the_countrv_or_region_of_these_notifications_with_your_location">If you enable severe weather notifications, The app can associate the country or region of these notifications with your location.</string>
+    <string name="current_location">CURRENT LOCATION</string>
+    <string name="your_serveve_time">YOUR SERVEVE TIME</string>
+    <string name="warning_between_dates">Warning between dates</string>
+    <string name="severe_weather">Severe Weather</string>
+    <string name="next_hour_notify">Next-Hour notify</string>
+    <string name="notifications_aren_t_supported_for_the_locations_in_your_list_learn_more">Notifications aren\'t supported for the locations in your list. <u>Learn more...</u></string>
+    <string name="duration_time">Duration time</string>
 
 </resources>

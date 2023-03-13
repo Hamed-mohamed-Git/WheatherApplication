@@ -1,20 +1,21 @@
 package com.example.wheatherapplication.ui.base
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.wheatherapplication.data.repository.OpenWeatherRepositoryImpl
-import com.example.wheatherapplication.domain.model.AlertInformation
+import com.example.wheatherapplication.constants.LocationType
+import com.example.wheatherapplication.data.local.FavouriteWeather
+import com.example.wheatherapplication.data.local.FavouriteWeatherInformation
 import com.example.wheatherapplication.domain.model.WeatherData
 import com.example.wheatherapplication.domain.model.WeatherSetting
-import com.example.wheatherapplication.domain.usecase.GetAllFavouriteWeathers
-import com.example.wheatherapplication.domain.usecase.GetDataStoreSettingData
-import com.example.wheatherapplication.domain.usecase.SetAlarm
-import com.example.wheatherapplication.domain.usecase.SetDataStoreSettingData
+import com.example.wheatherapplication.domain.usecase.*
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.util.Calendar
 import javax.inject.Inject
 
 
@@ -22,44 +23,68 @@ import javax.inject.Inject
 class BaseWeatherViewModel @Inject constructor(
     private val getAllFavouriteWeathers: GetAllFavouriteWeathers,
     private val getDataStoreSettingData: GetDataStoreSettingData,
-    private val setDataStoreSettingData: SetDataStoreSettingData,
-    private val setAlarm: SetAlarm
+    private val getDataStoreLocationData: GetDataStoreLocationData,
+    private val updateCurrentLocationWeatherInfo: UpdateCurrentLocationWeatherInfo,
+    private val getCurrentLocation: GetCurrentLocation,
+    private val setDataStoreLocationData: SetDataStoreLocationData,
+    private val getFavouriteWeatherInfo: GetFavouriteWeatherInfo,
+    private val updateCurrentLocationFavouriteWeather: UpdateCurrentLocationFavouriteWeather,
+    private val getFavoriteWeatherById: GetFavoriteWeatherById
 ) : ViewModel() {
     private val _favouriteWeathers: MutableStateFlow<List<WeatherData>> =
         MutableStateFlow(emptyList())
-    val favouriteWeathers = _favouriteWeathers.asStateFlow()
+    var favouriteWeathers = _favouriteWeathers.asLiveData()
 
-    private val _settings: MutableStateFlow<WeatherSetting> =
-        MutableStateFlow(WeatherSetting())
-    val settings = _settings.asStateFlow()
+    private val _settings: MutableStateFlow<WeatherSetting> = MutableStateFlow(WeatherSetting())
+    val settings = _settings.asLiveData()
 
-    fun getFavouriteWeathers() {
+    init {
         viewModelScope.launch {
-            getAllFavouriteWeathers().collect{
+            getDataStoreSettingData().collect { weatherSetting ->
+                _settings.emit(weatherSetting)
+                if (weatherSetting.locationType == LocationType.GPS) {
+                    getDataStoreLocationData().collect { oldLatLng ->
+                        getCurrentLocation().collect { location ->
+                            getFavouriteWeatherInfo(oldLatLng.latitude.toString()).collect {
+                                updateCurrentLocationWeatherInfo(
+                                    oldLatLng.latitude.toString(),
+                                    FavouriteWeatherInformation(
+                                        location.latitude.toString(),
+                                        location.longitude.toString(),
+                                        it.alertStart ?: 0L,
+                                        it.alertEnd ?: 0L
+                                    )
+                                )
+                            }
+                            getFavoriteWeatherById(oldLatLng.latitude.toString()).collect {
+                                updateCurrentLocationFavouriteWeather(
+                                    it.lat,
+                                    FavouriteWeather(
+                                        location.latitude.toString(),
+                                        location.longitude.toString(),
+                                        it.weather
+                                    )
+                                )
+                            }
+                            setDataStoreLocationData(LatLng(location.latitude, location.longitude))
+                        }
+
+                    }
+                }
+            }
+
+        }
+
+    }
+
+
+     fun getFavouriteWeathers() {
+        viewModelScope.launch {
+            getAllFavouriteWeathers().onEach {
                 _favouriteWeathers.emit(it)
-            }
-        }
-    }
-
-    fun getSettings() {
-        viewModelScope.launch {
-            getDataStoreSettingData()
-                .collect {
-                _settings.emit(it)
-            }
-
+            }.launchIn(this)
         }
     }
 
 
-
-    fun setAlarmTime(calendar: Calendar) {
-        setAlarm(
-            calendar.timeInMillis, AlertInformation(
-                "NWS Philadelphia - Mount Holly (New Jersey, Delaware, Southeastern Pennsylvania)",
-                null,
-                "SMALL CRAFT ADVISORY REMAINS IN EFFECT FROM 5 PM THIS\\nAFTERNOON TO 3 AM EST FRIDAY...\\n* WHAT...North winds 15 to 20 kt with gusts up to 25 kt and seas\\n3 to 5 ft expected.\\n* WHERE...Coastal waters from Little Egg Inlet to Great Egg\\nInlet NJ out 20 nm, Coastal waters from Great Egg Inlet to\\nCape May NJ out 20 nm and Coastal waters from Manasquan Inlet\\nto Little Egg Inlet NJ out 20 nm.\\n* WHEN...From 5 PM this afternoon to 3 AM EST Friday.\\n* IMPACTS...Conditions will be hazardous to small craft."
-            ),0
-        )
-    }
 }

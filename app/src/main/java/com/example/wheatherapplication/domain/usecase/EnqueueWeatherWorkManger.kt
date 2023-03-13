@@ -12,7 +12,7 @@ import javax.inject.Inject
 class EnqueueWeatherWorkManger @Inject constructor(
     private val context: Context
 ) {
-    operator fun invoke(interval: Long, flexInterval: Long, workId: String) =
+    operator fun invoke(interval: Long) =
         WorkManager.getInstance(context.applicationContext).enqueueUniquePeriodicWork(
             "app",
             ExistingPeriodicWorkPolicy.KEEP,
@@ -24,7 +24,7 @@ class EnqueueWeatherWorkManger @Inject constructor(
                     .setRequiresBatteryNotLow(false)
                     .setRequiresCharging(false)
                     .build()
-            ).setInitialDelay(3L,TimeUnit.MINUTES).build()
+            ).build()
         )
 
 

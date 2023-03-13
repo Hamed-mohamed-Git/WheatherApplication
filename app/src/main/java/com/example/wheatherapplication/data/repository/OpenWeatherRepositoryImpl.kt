@@ -11,7 +11,11 @@ import com.example.wheatherapplication.domain.model.WeatherData
 import com.example.wheatherapplication.domain.repository.OpenWeatherRepository
 import com.example.wheatherapplication.domain.usecase.GetGeoCoderLocation
 import com.google.android.gms.maps.model.LatLng
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 class OpenWeatherRepositoryImpl @Inject constructor(
@@ -37,13 +41,18 @@ class OpenWeatherRepositoryImpl @Inject constructor(
         openWeatherApiService.getForeCast(lat.toString(), lng.toString())
 
 
-    override suspend fun getFavouriteWeather(lat: Double,currentTemperature: Temperature,
-                                             temperature: Temperature,
-                                             lengthUnit: LengthUnit) = flow {
-        favouriteWeatherDataDao.getFavouriteWeather(lat.toString()).collect{
-            this.emit(WeatherDataMapper.convertToWeatherData(FavouriteWeatherDataMapper.convertToWeatherData(it.weather),
-                currentTemperature, temperature, lengthUnit
-            ))
+    override suspend fun getFavouriteWeather(
+        lat: Double, currentTemperature: Temperature,
+        temperature: Temperature,
+        lengthUnit: LengthUnit
+    ) = flow {
+        favouriteWeatherDataDao.getFavouriteWeather(lat.toString()).collect {
+            this.emit(
+                WeatherDataMapper.convertToWeatherData(
+                    FavouriteWeatherDataMapper.convertToWeatherData(it.weather),
+                    currentTemperature, temperature, lengthUnit
+                )
+            )
         }
 
     }
@@ -56,12 +65,19 @@ class OpenWeatherRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun insertFavouriteWeather(weatherData: WeatherData,currentTemperature: Temperature,
-                                                temperature: Temperature,
-                                                lengthUnit: LengthUnit) =
+    override suspend fun insertFavouriteWeather(
+        weatherData: WeatherData, currentTemperature: Temperature,
+        temperature: Temperature,
+        lengthUnit: LengthUnit
+    ) =
         favouriteWeatherDataDao.insertFavouriteWeather(
             FavouriteWeatherDataMapper.convertToFavouriteWeather(
-                WeatherDataMapper.convertToWeatherData(weatherData,currentTemperature, temperature, lengthUnit)
+                WeatherDataMapper.convertToWeatherData(
+                    weatherData,
+                    currentTemperature,
+                    temperature,
+                    lengthUnit
+                )
             )
         )
 
@@ -71,6 +87,16 @@ class OpenWeatherRepositoryImpl @Inject constructor(
             FavouriteWeatherDataMapper.convertToFavouriteWeather(
                 weatherData
             )
+        )
+
+    override suspend fun updateCurrentLocationFavouriteWeather(
+        id: String,
+        latitude: String?,
+        longitude: String?,
+        weather: String?,
+    ) =
+        favouriteWeatherDataDao.updateLocationFavouriteWeather(
+            id, latitude, longitude, weather
         )
 
 
@@ -83,6 +109,9 @@ class OpenWeatherRepositoryImpl @Inject constructor(
 
     override suspend fun checkFounded(id: String) =
         favouriteWeatherDataDao.checkFounded(id)
+
+    override suspend fun getWeatherById(id: String) =
+        favouriteWeatherDataDao.getFavouriteWeather(id)
 
 
 }

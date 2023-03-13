@@ -32,4 +32,12 @@ interface OpenWeatherRepository {
                                     temperature: Temperature,
                                     lengthUnit: LengthUnit): Flow<WeatherData>
     suspend fun checkFounded(id: String): Int?
+    suspend fun updateCurrentLocationFavouriteWeather(
+        id: String,
+        latitude: String?,
+        longitude: String?,
+        weather: String?
+    )
+
+    suspend fun getWeatherById(id: String): Flow<FavouriteWeather>
 }

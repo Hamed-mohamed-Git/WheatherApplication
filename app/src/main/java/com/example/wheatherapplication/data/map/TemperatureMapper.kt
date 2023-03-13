@@ -9,22 +9,22 @@ private const val FAHRENHEIT_NUM = 273.15
 object TemperatureMapper {
 
 
-    private fun convertCelToKelvin(degree: Double) =
+     fun convertCelToKelvin(degree: Double) =
         degree + FAHRENHEIT_NUM
 
-    private fun convertCelToFahrenheit(degree: Double) =
+     fun convertCelToFahrenheit(degree: Double) =
         (degree * 1.8) + 32
 
-    private fun convertKelvinToFahrenheit(degree: Double) =
+     fun convertKelvinToFahrenheit(degree: Double) =
         (degree - FAHRENHEIT_NUM) * 1.8 + 32
 
-    private fun convertKelvinToCel(degree: Double) =
+     fun convertKelvinToCel(degree: Double) =
         degree - FAHRENHEIT_NUM
 
-    private fun convertFahrenheitToCel(degree: Double) =
+    fun convertFahrenheitToCel(degree: Double) =
         (degree - 32) * 0.5
 
-    private fun convertFahrenheitToKelvin(degree: Double) =
+    fun convertFahrenheitToKelvin(degree: Double) =
         convertFahrenheitToCel(degree) + FAHRENHEIT_NUM
 
 

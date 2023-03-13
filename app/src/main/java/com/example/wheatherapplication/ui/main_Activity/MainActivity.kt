@@ -12,29 +12,33 @@ import com.example.wheatherapplication.constants.Language
 import com.example.wheatherapplication.ui.LocaleHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.*
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
-    private var language:String = "Ar"
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewModel.getSetting()
-        lifecycleScope.launch(Dispatchers.Main) {
-            viewModel.setting.collect {
-                it.language?.let {language ->
-                    if (language == Language.ARABIC)
-                        LocaleHelper.updateResourcesLegacy(this@MainActivity,"Ar")
-                }
-            }
-        }
+        //viewModel.getSetting()
+        LocaleHelper.updateResourcesLegacy(this@MainActivity,"En")
+//        lifecycleScope.launch(Dispatchers.Main) {
+//            delay(10000)
+//            viewModel.setting.collect {
+//                it.language?.let {language ->
+//                    if (language == Language.ARABIC)
+//                    else
+//                        LocaleHelper.updateResourcesLegacy(this@MainActivity,"En")
+//                }
+//            }
+//        }
 
 
 

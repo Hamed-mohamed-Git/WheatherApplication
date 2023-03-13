@@ -104,13 +104,11 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/your_settings_card_background"
-            android:elevation="2dp"
             app:layout_constraintBottom_toBottomOf="@id/guideline4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline2"
             app:layout_constraintWidth_percent="0.91" />
-
         <Button
             android:id="@+id/setupButton"
             android:layout_width="0dp"
@@ -120,7 +118,7 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/your_settings_card_background"
             android:backgroundTint="@color/black"
-            android:elevation="20sp"
+            android:elevation="25dp"
             android:text="@string/setup"
             android:textAllCaps="false"
             app:backgroundTint="@null"
@@ -128,6 +126,8 @@
             app:layout_constraintEnd_toEndOf="@+id/view"
             app:layout_constraintStart_toStartOf="@+id/view"
             app:layout_constraintWidth_percent="0.7" />
+
+
 
 
         <androidx.constraintlayout.widget.Guideline

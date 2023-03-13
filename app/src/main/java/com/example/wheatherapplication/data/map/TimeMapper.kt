@@ -11,7 +11,7 @@ import java.util.*
 
 object TimeMapper {
 
-    private fun convertTimeStamp(timeStamp:Long) : Date  =
+     fun convertTimeStamp(timeStamp:Long) : Date  =
         Date(timeStamp * 1000)
 
     @SuppressLint("SimpleDateFormat")

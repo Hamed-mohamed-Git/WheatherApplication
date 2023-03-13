@@ -14,6 +14,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import java.util.*
 
 @AndroidEntryPoint
@@ -25,25 +26,22 @@ class BaseWeatherFragment : BaseFragment<FragmentBaseBinding, BaseWeatherViewMod
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getFavouriteWeathers()
-        viewModel.getSettings()
-        lifecycleScope.launchWhenResumed {
-            viewModel.favouriteWeathers.onEach {
-                if (it.isNotEmpty()) {
-                    binding.viewPager2.adapter = FavouriteWeatherViewPagerAdapter(
-                        it,
-                        childFragmentManager,
-                        lifecycle
-                    )
-                    TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
-                        if (position == 0)
-                            tab.icon =
-                                ContextCompat.getDrawable(requireContext(), R.drawable.navigation)
-                        else
-                            tab.icon =
-                                ContextCompat.getDrawable(requireContext(), R.drawable.bullet)
-                    }.attach()
-                }
-            }.launchIn(this)
+        viewModel.favouriteWeathers.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                binding.viewPager2.adapter = FavouriteWeatherViewPagerAdapter(
+                    it,
+                    childFragmentManager,
+                    lifecycle
+                )
+                TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
+                    if (position == 0)
+                        tab.icon =
+                            ContextCompat.getDrawable(requireContext(), R.drawable.navigation)
+                    else
+                        tab.icon =
+                            ContextCompat.getDrawable(requireContext(), R.drawable.bullet)
+                }.attach()
+            }
         }
 
         binding.favouriteButton.setOnClickListener {
@@ -51,13 +49,7 @@ class BaseWeatherFragment : BaseFragment<FragmentBaseBinding, BaseWeatherViewMod
         }
 
         binding.mapButton.setOnClickListener {
-            // Set the alarm to start at 8:30 a.m.
-            val calendar: Calendar = Calendar.getInstance().apply {
-                timeInMillis = System.currentTimeMillis()
-                set(Calendar.HOUR_OF_DAY, 20)
-                set(Calendar.MINUTE, 39)
-            }
-            viewModel.setAlarmTime(calendar)
+
         }
     }
 

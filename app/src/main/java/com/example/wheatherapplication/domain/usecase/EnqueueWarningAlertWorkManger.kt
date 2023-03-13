@@ -2,6 +2,7 @@ package com.example.wheatherapplication.domain.usecase
 
 import android.content.Context
 import androidx.work.*
+import com.example.wheatherapplication.constants.Constants
 import com.example.wheatherapplication.ui.common.work_manger.WeatherAlertWorkManger
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -11,7 +12,7 @@ class EnqueueWarningAlertWorkManger @Inject constructor(
 ) {
     operator fun invoke(interval: Long) =
         WorkManager.getInstance(context.applicationContext).enqueueUniquePeriodicWork(
-            "alert",
+            Constants.WORK_MANGER_ALERT_TAG_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
             PeriodicWorkRequestBuilder<WeatherAlertWorkManger>(
                 interval, TimeUnit.MINUTES
@@ -21,7 +22,7 @@ class EnqueueWarningAlertWorkManger @Inject constructor(
                     .setRequiresBatteryNotLow(false)
                     .setRequiresCharging(false)
                     .build()
-            ).setInitialDelay(3L, TimeUnit.MINUTES).build()
+            ).build()
         )
 
 

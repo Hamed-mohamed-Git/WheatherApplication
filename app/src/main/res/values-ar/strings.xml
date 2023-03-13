@@ -30,10 +30,10 @@
     <string name="map_data"><u>بيانات الخريطة</u></string>
     <string name="weather_for">الطقس في</string>
     <string name="search_for_a_city_or_airport">ابحث عن مدينة أو مطار</string>
-    <string name="cancel">ميل</string>
+    <string name="cancel">انهي</string>
     <string name="add">يضيف</string>
-    <string name="done">منتهي</string>
-    <string name="edit_list">ميل</string>
+    <string name="done">حسنا</string>
+    <string name="edit_list">تعيل قائمة</string>
     <string name="notifications">إشعارات</string>
     <string name="settings">إعدادات</string>
     <string name="document_changed">تغير الطقس</string>
@@ -53,4 +53,17 @@
     <string name="english">إنجليزي</string>
     <string name="kilometer">كيلو متر</string>
     <string name="mile">ميل</string>
+    <string name="allow_notifications">Allow Notifications</string>
+    <string name="the_weather_app_needs_your_permission_to_send_you_notifications">The Weather app needs your permission to send you notifications.</string>
+    <string name="con">Continue</string>
+    <string name="not_now">Not Now</string>
+    <string name="weather_can_send_you_notifications_for_rain_snow_and_certain_relevant_severe_weather_alerts">Weather can send you notifications for rain, snow, and certain relevant severe weather alerts.</string>
+    <string name="if_you_enable_severe_weather_notifications_the_app_can_associate_the_countrv_or_region_of_these_notifications_with_your_location">If you enable severe weather notifications, The app can associate the countrv or region of these notifications with your location.</string>
+    <string name="current_location">CURRENT LOCATION</string>
+    <string name="your_serveve_time">YOUR SERVEVE TIME</string>
+    <string name="warning_between_dates">Warning between dates</string>
+    <string name="severe_weather">Severe Weather</string>
+    <string name="next_hour_notify">Next-Hour notify</string>
+    <string name="notifications_aren_t_supported_for_the_locations_in_your_list_learn_more">Notifications aren\'t supported for the locations in your list. Learn more...</string>
+    <string name="duration_time">Duration time</string>
 </resources>

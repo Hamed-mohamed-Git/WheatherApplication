@@ -16,7 +16,6 @@ data class FavouriteWeather(
 data class FavouriteWeatherInformation(
     @ColumnInfo("lat") val lat:String,
     @ColumnInfo("lng") val lng:String,
-    @ColumnInfo("workMangerID") val workID:String?,
     @ColumnInfo("alertStart") val alertStart:Long?,
     @ColumnInfo("alertEnd") val alertEnd:Long?
 )

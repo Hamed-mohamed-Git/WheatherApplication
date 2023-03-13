@@ -7,9 +7,11 @@ import com.example.wheatherapplication.constants.Temperature
 import com.example.wheatherapplication.data.local.FavouriteWeatherInformation
 import com.example.wheatherapplication.data.map.WeatherDataMapper
 import com.example.wheatherapplication.domain.model.WeatherData
+import com.example.wheatherapplication.domain.model.WeatherSetting
 import com.example.wheatherapplication.domain.usecase.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,6 +22,7 @@ class FavouriteViewModel @Inject constructor(
     private val saveFavouriteWeatherInfo: SaveFavouriteWeatherInfo,
     private val getAllFavouriteWeathers: GetAllFavouriteWeathers,
     private val getDataStoreSettingData: GetDataStoreSettingData,
+    private val settingData: SetDataStoreSettingData,
     private val enqueueWarningAlertWorkManger: EnqueueWarningAlertWorkManger
 ) : ViewModel() {
 
@@ -27,9 +30,13 @@ class FavouriteViewModel @Inject constructor(
         MutableStateFlow(emptyList())
     val favouriteWeathers = _favouriteWeathers
 
+    private val _settings = MutableStateFlow(WeatherSetting())
+    val setting = _settings.asStateFlow()
+
     fun getFavouriteWeathers() {
         viewModelScope.launch {
             getDataStoreSettingData().collect {
+                _settings.emit(it)
                 getAllFavouriteWeathers().collect { list ->
                     _favouriteWeathers.emit(
                         WeatherDataMapper.convertTListWeatherData(
@@ -58,7 +65,6 @@ class FavouriteViewModel @Inject constructor(
                     FavouriteWeatherInformation(
                         weatherData.lat.toString(),
                         weatherData.lon.toString(),
-                        "",
                         0L,
                         0L
                     )
@@ -77,7 +83,21 @@ class FavouriteViewModel @Inject constructor(
         }
     }
 
-    fun enqueueAlert(interval:Long){
+    fun setNotificationPermission(setting: WeatherSetting) =
+        viewModelScope.launch {
+            settingData(
+                WeatherSetting(
+                    true,
+                    setting.locationType,
+                    setting.temperatureUnit,
+                    setting.lengthUnit,
+                    setting.language,
+                )
+            )
+        }
+
+
+    fun enqueueAlert(interval: Long) {
         enqueueWarningAlertWorkManger(interval)
     }
 }

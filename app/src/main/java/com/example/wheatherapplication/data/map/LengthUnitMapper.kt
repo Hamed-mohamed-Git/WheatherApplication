@@ -4,10 +4,10 @@ import com.example.wheatherapplication.constants.LengthUnit
 
 object LengthUnitMapper {
 
-    private fun convertMileToKiloMeter(length: Double): Double =
+     fun convertMileToKiloMeter(length: Double): Double =
         length * 1.60934
 
-    private fun convertKiloMeterToMile(length: Double): Double =
+     fun convertKiloMeterToMile(length: Double): Double =
         length / 1.60934
 
 

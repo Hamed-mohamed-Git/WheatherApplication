@@ -38,7 +38,7 @@ class LocationFragment : BaseFragment<FragmentLocationBinding, LocationViewModel
     private lateinit var mapFragment: SupportMapFragment
     private lateinit var placeFragment: AutocompleteSupportFragment
     private var latLng: LatLng? = null
-    private lateinit var locationType: LocationType
+    private var locationType: LocationType? = null
     override val viewModel: LocationViewModel by viewModels()
     override val layoutRes: Int = R.layout.fragment_location
 
@@ -68,7 +68,6 @@ class LocationFragment : BaseFragment<FragmentLocationBinding, LocationViewModel
                 val data: Intent? = result.data
                 data?.let {
                     Autocomplete.getPlaceFromIntent(it).latLng?.let {
-                        locationType = LocationType.GPS
                         viewModel.latLng.postValue(Autocomplete.getPlaceFromIntent(data).latLng)
                     }
                 }
@@ -81,9 +80,11 @@ class LocationFragment : BaseFragment<FragmentLocationBinding, LocationViewModel
         binding.viewModel = viewModel
         initializePlaces()
         binding.setupButton.setOnClickListener {
-            latLng?.let {
-                viewModel.saveLatLng(it,locationType)
-                findNavController().navigate(R.id.action_locationFragment_to_baseWeatherFragment)
+            latLng?.let {latLng->
+                locationType?.let {
+                    viewModel.prepareUserLocation(latLng,it)
+                    findNavController().navigate(R.id.action_locationFragment_to_baseWeatherFragment)
+                }
             }
         }
         mapFragment = binding.map.getFragment()
@@ -98,9 +99,11 @@ class LocationFragment : BaseFragment<FragmentLocationBinding, LocationViewModel
             }
         }
         binding.radio0.setOnClickListener {
+            locationType = LocationType.GPS
             getGpsLocation()
         }
         binding.radio1.setOnClickListener {
+            locationType = LocationType.GOOGLE_MAP
             getGoogleMapLocation()
         }
     }
@@ -128,7 +131,6 @@ class LocationFragment : BaseFragment<FragmentLocationBinding, LocationViewModel
             it?.apply {
                 viewModel.convertLatLngToAddress(it)
                 this@LocationFragment.latLng = this
-                locationType = LocationType.GOOGLE_MAP
                 googleMap.clear()
                 googleMap.addMarker(MarkerOptions().position(it))
                 googleMap.moveCamera(
@@ -142,7 +144,6 @@ class LocationFragment : BaseFragment<FragmentLocationBinding, LocationViewModel
                     )
                 )
                 googleMap.moveCamera(CameraUpdateFactory.scrollBy(0f, 300f))
-
             }
         }
         googleMap.setOnMapLongClickListener {

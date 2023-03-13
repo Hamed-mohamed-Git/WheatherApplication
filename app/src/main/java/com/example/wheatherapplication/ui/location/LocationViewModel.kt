@@ -12,6 +12,7 @@ import com.example.wheatherapplication.domain.usecase.*
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,8 +35,8 @@ class LocationViewModel @Inject constructor(
     fun getGpsLocation(checkPermission: Boolean) {
         viewModelScope.launch {
             if (checkPermission) {
-                getCurrentLocation().apply {
-                    latLng.postValue(LatLng(this.latitude, this.longitude))
+                getCurrentLocation().collect {
+                    latLng.postValue(LatLng(it.latitude, it.longitude))
                 }
             } else
                 _locationEventChannel.send(LocationEvent.LocationPermissionRequest)
@@ -46,36 +47,54 @@ class LocationViewModel @Inject constructor(
     fun convertLatLngToAddress(latLng: LatLng): Unit =
         address.postValue(getGeoCoderLocation(latLng))
 
-    fun saveLatLng(latLng: LatLng?, locationType: LocationType) {
+    fun prepareUserLocation(latLng: LatLng?, locationType: LocationType) {
+        viewModelScope.launch {
+            setSettings(locationType)
+            with(latLng ?: LatLng(0.0, 0.0)) {
+                saveFavouriteWeatherInfo(
+                    FavouriteWeatherInformation(
+                        latitude.toString(),
+                        longitude.toString(),
+                        0L,
+                        0L
+                    )
+                )
+                enqueueWeatherWorkManger(15L)
+                setDataStoreLocationData(this)
+            }
+        }
+    }
+
+
+    private fun setSettings(locationType: LocationType) {
         viewModelScope.launch {
             setDataStoreSettingData(
                 WeatherSetting(
+                    false,
                     locationType,
                     Temperature.CELSIUS,
                     LengthUnit.KM,
                     Language.ENGLISH
                 )
             )
-            with(latLng ?: LatLng(0.0, 0.0)) {
-                saveFavouriteWeatherInfo(
-                    FavouriteWeatherInformation(
-                        latitude.toString(),
-                        longitude.toString(),
-                        String().format(Constants.STANDARD_WORKER_ID, latitude, longitude),
-                        0L,
-                        0L
-                    )
-                )
-                enqueueWeatherWorkManger(
-                    12L,
-                    30,
-                    String().format(Constants.STANDARD_WORKER_ID, latitude, longitude)
-                )
-                setDataStoreLocationData(this)
-
-            }
         }
     }
 
+
+    //                getWeatherData(
+//                    latitude,
+//                    longitude,
+//                    Constants.API_UNIT_METRIC,
+//                    Temperature.CELSIUS,
+//                    Temperature.CELSIUS,
+//                    LengthUnit.KM
+//                ).collect {
+//                    saveFavouriteWeatherData(
+//                        it,
+//                        Temperature.CELSIUS,
+//                        Temperature.CELSIUS,
+//                        LengthUnit.KM
+//                    )
+//                }
 
 }
