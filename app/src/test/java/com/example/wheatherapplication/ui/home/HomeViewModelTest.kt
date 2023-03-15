@@ -105,11 +105,13 @@ class HomeViewModelTest {
     fun getWeatherSettings_WeatherSettings() = runTest {
         //Given
         val weatherSetting = WeatherSetting(
-            false,
-            LocationType.GPS,
-            Temperature.CELSIUS,
-            LengthUnit.KM,
-            Language.ARABIC
+            severeWeather = false,
+            durationTime = false,
+            notificationPermission = false,
+            locationType = LocationType.GPS,
+            temperatureUnit = Temperature.CELSIUS,
+            lengthUnit = LengthUnit.KM,
+            language = Language.ARABIC
         )
 
         //When

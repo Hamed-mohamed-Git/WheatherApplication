@@ -67,10 +67,12 @@ class SettingsViewModelTest {
         //Given
         val weatherSetting = WeatherSetting(
             false,
-            LocationType.GPS,
-            Temperature.CELSIUS,
-            LengthUnit.KM,
-            Language.ARABIC
+            durationTime = false,
+            notificationPermission = false,
+            locationType = LocationType.GPS,
+            temperatureUnit = Temperature.CELSIUS,
+            lengthUnit = LengthUnit.KM,
+            language = Language.ARABIC
         )
 
 
