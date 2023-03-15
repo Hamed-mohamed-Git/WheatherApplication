@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.*
 import com.example.wheatherapplication.constants.Constants
 import com.example.wheatherapplication.ui.common.work_manger.WeatherAlertWorkManger
+import java.time.Duration
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -22,7 +23,7 @@ class EnqueueWarningAlertWorkManger @Inject constructor(
                     .setRequiresBatteryNotLow(false)
                     .setRequiresCharging(false)
                     .build()
-            ).build()
+            ).setInitialDelay(Duration.ofMillis(10000L)).build()
         )
 
 

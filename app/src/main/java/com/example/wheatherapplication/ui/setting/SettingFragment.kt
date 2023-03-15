@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import androidx.core.os.LocaleListCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.wheatherapplication.R
@@ -95,6 +97,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>(
                     binding.kelvinSwitch.isChecked = false
                     viewModel.setSettings(
                         WeatherSetting(
+                            it.severeWeather,
+                            it.durationTime,
                             it.notificationPermission,
                             it.locationType,
                             Temperature.CELSIUS,
@@ -108,6 +112,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>(
                     binding.celSwitch.isChecked = false
                     viewModel.setSettings(
                         WeatherSetting(
+                            it.severeWeather,
+                            it.durationTime,
                             it.notificationPermission,
                             it.locationType,
                             Temperature.KELVIN,
@@ -122,6 +128,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>(
                     binding.kelvinSwitch.isChecked = false
                     viewModel.setSettings(
                         WeatherSetting(
+                            it.severeWeather,
+                            it.durationTime,
                             it.notificationPermission,
                             it.locationType,
                             Temperature.FAHRENHEIT,
@@ -134,6 +142,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>(
                     binding.MileSwitch.isChecked = false
                     viewModel.setSettings(
                         WeatherSetting(
+                            it.severeWeather,
+                            it.durationTime,
                             it.notificationPermission,
                             it.locationType,
                             it.temperatureUnit,
@@ -146,6 +156,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>(
                     binding.KiloSwitch.isChecked = false
                     viewModel.setSettings(
                         WeatherSetting(
+                            it.severeWeather,
+                            it.durationTime,
                             it.notificationPermission,
                             it.locationType,
                             it.temperatureUnit,
@@ -154,34 +166,50 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>(
                         )
                     )
                 }
-                binding.arabicSwitch.setOnCheckedChangeListener { _, _ ->
-                    binding.englishSwitch.isChecked = false
-                    viewModel.setSettings(
-                        WeatherSetting(
-                            it.notificationPermission,
-                            it.locationType,
-                            it.temperatureUnit,
-                            it.lengthUnit,
-                            Language.ARABIC
+                binding.arabicSwitch.setOnCheckedChangeListener { _, checked ->
+                    if (checked&& it.language == Language.ENGLISH){
+                        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("Ar"))
+                        binding.englishSwitch.isChecked = false
+                        viewModel.setSettings(
+                            WeatherSetting(
+                                it.severeWeather,
+                                it.durationTime,
+                                it.notificationPermission,
+                                it.locationType,
+                                it.temperatureUnit,
+                                it.lengthUnit,
+                                Language.ARABIC
+                            )
                         )
-                    )
+                    }
+
+
                 }
-                binding.englishSwitch.setOnCheckedChangeListener { _, _ ->
-                    binding.arabicSwitch.isChecked = false
-                    viewModel.setSettings(
-                        WeatherSetting(
-                            it.notificationPermission,
-                            it.locationType,
-                            it.temperatureUnit,
-                            it.lengthUnit,
-                            Language.ENGLISH
+                binding.englishSwitch.setOnCheckedChangeListener { _, checked ->
+                    if (checked && it.language == Language.ARABIC){
+                        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("En"))
+                        binding.arabicSwitch.isChecked = false
+                        viewModel.setSettings(
+                            WeatherSetting(
+                                it.severeWeather,
+                                it.durationTime,
+                                it.notificationPermission,
+                                it.locationType,
+                                it.temperatureUnit,
+                                it.lengthUnit,
+                                Language.ENGLISH
+                            )
                         )
-                    )
+                    }
+
+
                 }
                 binding.googleMapSwitch.setOnCheckedChangeListener { _, _ ->
                     binding.locationSwitch.isChecked = false
                     viewModel.setSettings(
                         WeatherSetting(
+                            it.severeWeather,
+                            it.durationTime,
                             it.notificationPermission,
                             LocationType.GOOGLE_MAP,
                             it.temperatureUnit,
@@ -195,6 +223,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingsViewModel>(
                     binding.googleMapSwitch.isChecked = false
                     viewModel.setSettings(
                         WeatherSetting(
+                            it.severeWeather,
+                            it.durationTime,
                             it.notificationPermission,
                             LocationType.GPS,
                             it.temperatureUnit,

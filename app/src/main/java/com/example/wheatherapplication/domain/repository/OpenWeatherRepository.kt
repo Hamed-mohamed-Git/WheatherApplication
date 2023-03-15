@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface OpenWeatherRepository {
 
     suspend fun getForeCast(lat: Double, lng: Double): OpenWeatherForeCastDTO
-    suspend fun getFavouriteWeathers(): Flow<List<WeatherData>>
+    fun getFavouriteWeathers(): Flow<List<WeatherData>>
     suspend fun insertFavouriteWeather(weatherData: WeatherData,currentTemperature: Temperature,
                                        temperature: Temperature,
                                        lengthUnit: LengthUnit)

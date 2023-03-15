@@ -39,20 +39,34 @@ class WeatherAlertWorkManger @AssistedInject constructor(
                                 Temperature.CELSIUS,
                                 LengthUnit.KM
                             ).collect { weatherData ->
-                                weatherData.alerts?.let { alerts ->
-                                    if (alerts.isNotEmpty()) {
-                                        alerts[0]?.let { alert ->
-                                            setAlarm(
-                                                30000L, AlertInformation(
-                                                    alert.senderName,
-                                                    alert.event,
-                                                    alert.description
-                                                ), 0
-                                            )
+                                if (weatherData.alerts != null){
+                                    weatherData.alerts.let { alerts ->
+                                        if (alerts.isNotEmpty()) {
+                                            alerts[0]?.let { alert ->
+                                                setAlarm(
+                                                    20000L, AlertInformation(
+                                                        "Emergency Alert",
+                                                        alert.senderName,
+                                                        alert.event,
+                                                        alert.description
+                                                    ), 0
+                                                )
 
+                                            }
                                         }
-                                    }
 
+                                    }
+                                }else{
+                                    weatherData.current?.weather?.let {weatherItem ->
+                                        setAlarm(
+                                            20000L, AlertInformation(
+                                                "weather condition",
+                                                weatherItem.description,
+                                                weatherItem.main,
+                                                weatherItem.description
+                                            ), 0
+                                        )
+                                    }
                                 }
                             }
                         }

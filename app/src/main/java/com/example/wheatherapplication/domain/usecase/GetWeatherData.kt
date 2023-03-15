@@ -4,12 +4,13 @@ import com.example.wheatherapplication.constants.LengthUnit
 import com.example.wheatherapplication.constants.Temperature
 import com.example.wheatherapplication.data.repository.OpenWeatherRepositoryImpl
 import com.example.wheatherapplication.domain.model.WeatherData
+import com.example.wheatherapplication.domain.repository.OpenWeatherRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class GetWeatherData @Inject constructor(
-    private val openWeatherRepositoryImpl: OpenWeatherRepositoryImpl
+    private val openWeatherRepositoryImpl: OpenWeatherRepository,
 ) {
 
     suspend operator fun invoke(

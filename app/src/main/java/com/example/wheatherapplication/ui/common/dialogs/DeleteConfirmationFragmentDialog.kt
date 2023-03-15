@@ -33,6 +33,7 @@ class DeleteConfirmationFragmentDialog() : DialogFragment() {
                     dismiss()
                 }
                 cancelButton.setOnClickListener {
+                    navViewModel.onEvent(DialogEvent.OnCancel)
                     dismiss()
                 }
 

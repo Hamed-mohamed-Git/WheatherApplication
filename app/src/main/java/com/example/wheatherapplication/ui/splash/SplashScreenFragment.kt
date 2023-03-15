@@ -31,12 +31,12 @@ class SplashScreenFragment : BaseFragment<FragmentSplashScreenBinding,SplashScre
                     is DataStoreLocationState.LocationFounded -> {
                         delay(1500)
                         this.cancel()
-                        this@SplashScreenFragment.findNavController().navigate(R.id.action_splashScreenFragment_to_baseWeatherFragment)
+                        this@SplashScreenFragment.findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToBaseWeatherFragment())
                     }
                     is DataStoreLocationState.LocationNotFounded -> {
                         delay(1500)
                         this.cancel()
-                        this@SplashScreenFragment.findNavController().navigate(R.id.action_splashScreenFragment_to_locationFragment)
+                        this@SplashScreenFragment.findNavController().navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToLocationFragment(false))
                     }
                     else ->{}
                 }

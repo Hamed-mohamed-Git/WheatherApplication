@@ -43,7 +43,6 @@ class WeatherDataWorkManger @AssistedInject constructor(
                             ) != null
                         ) {
                             updateFavouriteWeather(weatherData)
-                            return@collect
                         }
                         else {
                             saveFavouriteWeatherData(
@@ -51,7 +50,6 @@ class WeatherDataWorkManger @AssistedInject constructor(
                                 Temperature.CELSIUS,
                                 LengthUnit.KM
                             )
-                            return@collect
                         }
                     }
                 }

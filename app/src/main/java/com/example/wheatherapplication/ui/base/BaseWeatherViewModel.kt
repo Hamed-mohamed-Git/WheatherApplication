@@ -1,16 +1,22 @@
 package com.example.wheatherapplication.ui.base
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.wheatherapplication.constants.LengthUnit
 import com.example.wheatherapplication.constants.LocationType
+import com.example.wheatherapplication.constants.Temperature
 import com.example.wheatherapplication.data.local.FavouriteWeather
 import com.example.wheatherapplication.data.local.FavouriteWeatherInformation
+import com.example.wheatherapplication.data.map.WeatherDataMapper
 import com.example.wheatherapplication.domain.model.WeatherData
 import com.example.wheatherapplication.domain.model.WeatherSetting
 import com.example.wheatherapplication.domain.usecase.*
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -33,14 +39,15 @@ class BaseWeatherViewModel @Inject constructor(
 ) : ViewModel() {
     private val _favouriteWeathers: MutableStateFlow<List<WeatherData>> =
         MutableStateFlow(emptyList())
-    var favouriteWeathers = _favouriteWeathers.asLiveData()
+    var favouriteWeathers = _favouriteWeathers.asStateFlow()
 
     private val _settings: MutableStateFlow<WeatherSetting> = MutableStateFlow(WeatherSetting())
-    val settings = _settings.asLiveData()
+    val settings = _settings
 
     init {
         viewModelScope.launch {
             getDataStoreSettingData().collect { weatherSetting ->
+                getFavouriteWeathers(weatherSetting)
                 _settings.emit(weatherSetting)
                 if (weatherSetting.locationType == LocationType.GPS) {
                     getDataStoreLocationData().collect { oldLatLng ->
@@ -78,13 +85,23 @@ class BaseWeatherViewModel @Inject constructor(
     }
 
 
-     fun getFavouriteWeathers() {
-        viewModelScope.launch {
-            getAllFavouriteWeathers().onEach {
-                _favouriteWeathers.emit(it)
-            }.launchIn(this)
-        }
+    fun getFavouriteWeathers(weatherSetting: WeatherSetting) {
+         viewModelScope.launch {
+             getAllFavouriteWeathers().onEach {
+                 _favouriteWeathers.emit(
+                     WeatherDataMapper.convertTListWeatherData(
+                         it,
+                         Temperature.CELSIUS,
+                         weatherSetting.temperatureUnit ?: Temperature.CELSIUS,
+                         weatherSetting.lengthUnit ?: LengthUnit.KM
+                     )
+                 )
+             }.launchIn(this)
+         }
+
     }
+
+
 
 
 }

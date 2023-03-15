@@ -65,5 +65,10 @@
     <string name="next_hour_notify">Next-Hour notify</string>
     <string name="notifications_aren_t_supported_for_the_locations_in_your_list_learn_more">Notifications aren\'t supported for the locations in your list. <u>Learn more...</u></string>
     <string name="duration_time">Duration time</string>
+    <string name="hourly_forecast">HOURLY FORECAST</string>
+    <string name="hour">2:30</string>
+    <string name="duration_time_date">Saturday, March 11, 2023</string>
+    <string name="other">other</string>
+
 
 </resources>

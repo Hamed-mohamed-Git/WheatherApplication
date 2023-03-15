@@ -1,17 +1,16 @@
 package com.example.wheatherapplication.domain.usecase
 
 import com.example.wheatherapplication.domain.repository.OpenWeatherRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class GetAllFavouriteWeathers @Inject constructor(
-    private val repository:OpenWeatherRepository
+    private val repository: OpenWeatherRepository
 ) {
-    suspend operator fun invoke() = flow {
-        repository.getFavouriteWeathers().collect{
-            this.emit(it)
-        }
-
-    }
+     operator fun invoke() =
+        repository.getFavouriteWeathers().distinctUntilChanged().flowOn(Dispatchers.IO)
 
 }

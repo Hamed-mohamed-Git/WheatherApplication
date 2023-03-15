@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.wheatherapplication.domain.usecase.GetDataStoreLocationData
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch

@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_locationFragment_to_baseWeatherFragment"
             app:destination="@id/baseWeatherFragment" />
+        <argument
+            android:name="isGoogleMap"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"
@@ -22,21 +25,28 @@
 
         <action
             android:id="@+id/action_splashScreenFragment_to_locationFragment"
-            app:destination="@id/locationFragment" />
+            app:destination="@id/locationFragment"
+            app:popUpTo="@id/nav_graph" />
         <action
             android:id="@+id/action_splashScreenFragment_to_baseWeatherFragment"
-            app:destination="@id/baseWeatherFragment" />
+            app:destination="@id/baseWeatherFragment"
+            app:popUpTo="@id/nav_graph" />
     </fragment>
     <fragment
         android:id="@+id/baseWeatherFragment"
+        tools:layout="@layout/fragment_base"
         android:name="com.example.wheatherapplication.ui.base.BaseWeatherFragment"
         android:label="BaseWeatherFragment" >
         <action
             android:id="@+id/action_baseWeatherFragment_to_favouriteFragment"
             app:destination="@id/favouriteFragment" />
+        <action
+            android:id="@+id/action_baseWeatherFragment_to_locationFragment"
+            app:destination="@id/locationFragment" />
     </fragment>
     <fragment
         android:id="@+id/favouriteFragment"
+        tools:layout="@layout/fragment_favourite"
         android:name="com.example.wheatherapplication.ui.favourite.FavouriteFragment"
         android:label="FavouriteFragment" >
         <action
@@ -48,6 +58,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
+        tools:layout="@layout/fragment_setting"
         android:name="com.example.wheatherapplication.ui.setting.SettingFragment"
         android:label="SettingFragment" />
     <dialog

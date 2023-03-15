@@ -13,9 +13,7 @@ import com.example.wheatherapplication.domain.usecase.GetGeoCoderLocation
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class OpenWeatherRepositoryImpl @Inject constructor(
@@ -58,11 +56,10 @@ class OpenWeatherRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun getFavouriteWeathers() = flow {
-        favouriteWeatherDataDao.getFavouriteWeathers().collect {
-            this.emit(FavouriteWeatherDataMapper.convertToWeatherDataList(it))
+    override fun getFavouriteWeathers() =
+        favouriteWeatherDataDao.getFavouriteWeathers().distinctUntilChanged().map {
+            FavouriteWeatherDataMapper.convertToWeatherDataList(it)
         }
-    }
 
 
     override suspend fun insertFavouriteWeather(

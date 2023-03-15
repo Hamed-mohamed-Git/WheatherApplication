@@ -27,7 +27,7 @@ object TimeMapper {
         SimpleDateFormat(Constants.FULL_DATE_PATTERN,Locale.getDefault()).format(convertTimeStamp(timeStamp ?: 0L))
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
      fun convertTimeStampToLocalDate(timeStamp:Long?): LocalDate =
         LocalDate.parse(convertTimeStampToFullDate(timeStamp) , DateTimeFormatter.ofPattern(Constants.FULL_DATE_PATTERN))
 

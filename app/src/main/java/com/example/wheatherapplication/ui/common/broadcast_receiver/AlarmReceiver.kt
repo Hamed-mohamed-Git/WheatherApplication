@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -37,11 +38,19 @@ class AlarmReceiver : BroadcastReceiver() {
                     NotificationCompat.Builder(context)
                 }
                 builder.apply {
-                    setContentTitle("Emergency Alert")
+                    setContentTitle(it.title)
                     setContentText(it.senderName)
                     setLargeIcon(context.getDrawable(R.drawable.alert)?.toBitmap())
                     setSmallIcon(R.drawable.ic_launcher_foreground)
                     setStyle(NotificationCompat.BigTextStyle().bigText(it.description))
+                    setSound(
+                        Uri.parse(
+                            "android.resource://" +
+                                    context.applicationContext.packageName +
+                                    "/" +
+                                    R.raw.notification_sound
+                        )
+                    )
                 }
                 notify(1234, builder.build())
             }

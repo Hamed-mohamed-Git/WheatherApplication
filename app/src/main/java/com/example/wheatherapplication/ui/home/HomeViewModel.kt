@@ -30,7 +30,7 @@ class HomeViewModel @Inject constructor(
     val weatherSetting = _weatherSetting.asStateFlow()
 
     fun getFavouriteWeather(lat: Double) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             getDataStoreSettingData().collect {
                 _weatherSetting.value = it
                 getFavouriteWeather(

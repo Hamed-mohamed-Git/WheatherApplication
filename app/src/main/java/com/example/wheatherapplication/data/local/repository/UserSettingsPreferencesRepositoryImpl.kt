@@ -16,6 +16,10 @@ class UserSettingsPreferencesRepositoryImpl @Inject constructor(
 
     override suspend fun setSettings(settings: WeatherSetting) =
         dataStore.edit {
+            it[stringPreferencesKey(Constants.SEVERE_DATASTORE_KEY)] =
+                settings.severeWeather.toString()
+            it[stringPreferencesKey(Constants.DURATION_DATASTORE_KEY)] =
+                settings.durationTime.toString()
             it[stringPreferencesKey(Constants.NOTIFICATION_PERMISSION_TYPE_DATASTORE_KEY)] =
                 settings.notificationPermission.toString()
             it[stringPreferencesKey(Constants.LOCATION_TYPE_DATASTORE_KEY)] =
@@ -30,6 +34,8 @@ class UserSettingsPreferencesRepositoryImpl @Inject constructor(
 
     override suspend fun getSettings() = dataStore.data.map {
         WeatherSetting(
+            it[stringPreferencesKey(Constants.SEVERE_DATASTORE_KEY)].toBoolean(),
+            it[stringPreferencesKey(Constants.DURATION_DATASTORE_KEY)].toBoolean(),
             it[stringPreferencesKey(Constants.NOTIFICATION_PERMISSION_TYPE_DATASTORE_KEY)].toBoolean(),
             enumValueOf<LocationType>(it[stringPreferencesKey(Constants.LOCATION_TYPE_DATASTORE_KEY)].toString()),
             enumValueOf<Temperature>(it[stringPreferencesKey(Constants.DEGREE_UNIT_DATASTORE_KEY)].toString()),

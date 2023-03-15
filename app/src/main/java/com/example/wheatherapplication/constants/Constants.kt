@@ -7,6 +7,8 @@ object Constants {
     const val PLACES_API_KEY = "AIzaSyAbuHdF1hB_ddtCtgEZ7iE3cDqXk4zpVJU"
     const val DEGREE_UNIT_DATASTORE_KEY = "degreeUnit"
     const val LENGTH_UNIT_DATASTORE_KEY= "lengthUnit"
+    const val SEVERE_DATASTORE_KEY= "SEVERE"
+    const val DURATION_DATASTORE_KEY= "DURATION"
     const val LANGUAGE_DATASTORE_KEY= "language"
     const val LOCATION_TYPE_DATASTORE_KEY= "location"
     const val NOTIFICATION_PERMISSION_TYPE_DATASTORE_KEY= "permission"

@@ -1,5 +1,6 @@
 package com.example.wheatherapplication.ui.base
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -12,7 +13,7 @@ import com.example.wheatherapplication.ui.home.HomeFragment
 import com.google.android.gms.maps.model.LatLng
 
 class FavouriteWeatherViewPagerAdapter(
-    private val favouriteWeatherList: List<WeatherData>,
+    private val favouriteWeatherList: MutableList<WeatherData>,
     fragmentManager: FragmentManager,
     lifecycle: Lifecycle
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
@@ -25,5 +26,10 @@ class FavouriteWeatherViewPagerAdapter(
             "lon" to (favouriteWeatherList[position].lon ?: 0.0),
             "flag" to true
         )
+    }
+    @SuppressLint("NotifyDataSetChanged")
+     fun addItem(weatherData: WeatherData){
+        favouriteWeatherList.add(weatherData)
+        notifyDataSetChanged()
     }
 }

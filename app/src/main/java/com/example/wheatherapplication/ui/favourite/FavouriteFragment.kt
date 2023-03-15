@@ -3,6 +3,7 @@ package com.example.wheatherapplication.ui.favourite
 import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -14,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.window.layout.WindowMetricsCalculator
 import com.example.wheatherapplication.R
 import com.example.wheatherapplication.constants.Constants
 import com.example.wheatherapplication.databinding.FragmentFavouriteBinding
@@ -28,6 +30,7 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -43,6 +46,10 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
     private val deletedWeather: MutableList<WeatherData> = mutableListOf()
     private var deletedVisible: Boolean? = null
     private lateinit var favouriteWeatherAdapter: FavouriteWeatherAdapter
+    private val bound:Rect by lazy{
+        WindowMetricsCalculator.getOrCreate()
+            .computeCurrentWindowMetrics(requireActivity()).bounds
+    }
     private val searchResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -52,7 +59,7 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
                     Autocomplete.getPlaceFromIntent(it).latLng?.let { latLng ->
                         searchedWeatherAnimation(
                             binding.searchedWeatherCardView,
-                            -1430f,
+                            -(bound.height() * (0.87)).toFloat(),
                             "translationY"
                         ).doOnEnd {
                             initializeWeatherFragment(latLng.latitude, latLng.longitude, false)
@@ -81,7 +88,7 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
 
             }
             lifecycleScope.launch {
-                viewModel.setting.onEach { weatherSetting ->
+                viewModel.setting.collect { weatherSetting ->
                     notificationButton.setOnClickListener {
                         weatherSetting.notificationPermission?.let {
                             if (it) {
@@ -89,7 +96,12 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
                                 addButton.visibility = View.GONE
                                 notificationTextView.visibility = View.VISIBLE
                                 doneNotificationButton.visibility = View.VISIBLE
+                                permissionLayout.visibility = View.GONE
                             } else {
+                                searchedWeather.visibility = View.GONE
+                                addButton.visibility = View.GONE
+                                notificationTextView.visibility = View.GONE
+                                doneNotificationButton.visibility = View.GONE
                                 permissionLayout.visibility = View.VISIBLE
                             }
                             searchedSettingsAnimation(
@@ -101,7 +113,7 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
                                 cancelButton.visibility = View.GONE
                                 searchedWeatherAnimation(
                                     searchedWeatherCardView,
-                                    -1430f,
+                                    -(bound.height() * (0.87)).toFloat(),
                                     "translationY"
                                 )
                             }
@@ -110,12 +122,15 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
                     }
                     continueButton.setOnClickListener {
                         viewModel.setNotificationPermission(weatherSetting)
+                        addButton.visibility = View.GONE
+                        notificationTextView.visibility = View.VISIBLE
+                        doneNotificationButton.visibility = View.VISIBLE
                         permissionLayout.visibility = View.GONE
                         searchedWeather.visibility = View.VISIBLE
                         replaceFragment(AlertFragment())
                     }
 
-                }.launchIn(this)
+                }
             }
             lifecycleScope.launch {
                 viewModel.favouriteWeathers.collect { weatherDataList ->
@@ -168,10 +183,13 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
                 favouriteWeatherAdapter.changeDeleteVisible(deletedVisible!!)
             }
             doneButton.setOnClickListener {
-                deletedVisible = false
-                favouriteWeatherAdapter.changeDeleteVisible(deletedVisible!!)
-                viewModel.deleteFavouriteWeather(deletedWeather)
-                it.visibility = View.GONE
+                if (deletedWeather.isNotEmpty())
+                    findNavController().navigate(FavouriteFragmentDirections.actionFavouriteFragmentToDeleteConfirmationFragmentDialog())
+                else{
+                    deletedVisible = false
+                    favouriteWeatherAdapter.changeDeleteVisible(deletedVisible!!)
+                    binding.doneButton.visibility = View.GONE
+                }
             }
             reportButton.setOnClickListener {
                 searchedSettingsAnimation(binding.settingsCardView, 1f, 0f).doOnEnd {
@@ -205,27 +223,46 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
                 )
             }
             cancelButton.setOnClickListener {
-                searchedWeatherAnimation(binding.searchedWeatherCardView, 1430f, "translationY")
+                searchedWeatherAnimation(binding.searchedWeatherCardView, (bound.height() * (0.87)).toFloat(), "translationY")
             }
             addButton.setOnClickListener {
                 deletedVisible = null
                 viewModel.saveFavouriteWeather(homeFragment.weatherData)
-                searchedWeatherAnimation(binding.searchedWeatherCardView, 1430f, "translationY")
+                searchedWeatherAnimation(binding.searchedWeatherCardView, (bound.height() * (0.87)).toFloat(), "translationY")
                 Toast.makeText(context, "The location saved successfully", Toast.LENGTH_LONG).show()
             }
             notNowTextView.setOnClickListener {
-                searchedWeatherAnimation(searchedWeatherCardView, 1430f, "translationY").doOnEnd {
+                searchedWeatherAnimation(searchedWeatherCardView, (bound.height() * (0.87)).toFloat(), "translationY").doOnEnd {
                     settingsCardView.visibility = View.GONE
                     permissionLayout.visibility = View.GONE
                 }
             }
             doneNotificationButton.setOnClickListener {
-                searchedWeatherAnimation(searchedWeatherCardView, 1430f, "translationY").doOnEnd {
+                searchedWeatherAnimation(searchedWeatherCardView, (bound.height() * (0.87)).toFloat(), "translationY").doOnEnd {
                     doneNotificationButton.visibility = View.GONE
                     notificationTextView.visibility = View.GONE
                 }
             }
+
         }
+        lifecycleScope.launch {
+            navViewModel.eventResult.collect{
+                when(it){
+                    is DialogEventResult.OnCLickCanceled ->{
+                        deletedVisible = false
+                        favouriteWeatherAdapter.changeDeleteVisible(deletedVisible!!)
+                        binding.doneButton.visibility = View.GONE
+
+                    }
+                    is DialogEventResult.OnClickDeleted ->{
+                        deletedVisible = false
+                        viewModel.deleteFavouriteWeather(deletedWeather)
+                        binding.doneButton.visibility = View.GONE
+                    }
+                }
+            }
+        }
+
 
     }
 
@@ -255,9 +292,11 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
         homeFragment = HomeFragment().apply {
             arguments = bundleOf("lat" to lat, "lon" to lon, "flag" to flag)
         }
+        binding.searchedWeather.visibility = View.VISIBLE
         binding.cancelButton.visibility = View.VISIBLE
         binding.addButton.visibility = View.VISIBLE
         binding.doneNotificationButton.visibility = View.GONE
+        binding.permissionLayout.visibility = View.GONE
         replaceFragment(homeFragment)
     }
 
@@ -265,7 +304,7 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
         searchedSettingsAnimation(binding.settingsCardView, 1f, 0f).doOnEnd {
             binding.settingsCardView.visibility = View.GONE
         }
-        searchedWeatherAnimation(binding.searchedWeatherCardView, -1430f, "translationY").doOnEnd {
+        searchedWeatherAnimation(binding.searchedWeatherCardView, -(bound.height() * (0.87)).toFloat(), "translationY").doOnEnd {
             initializeWeatherFragment(lat, lon, true)
             binding.addButton.visibility = View.GONE
         }
@@ -278,6 +317,7 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
     override fun onDeleteFavouriteWeatherClick(weatherData: WeatherData) {
         deletedWeather.add(weatherData)
     }
+
 
 }
 

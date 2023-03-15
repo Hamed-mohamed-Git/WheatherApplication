@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.wheatherapplication.R
 import com.example.wheatherapplication.constants.Constants
@@ -30,6 +31,8 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -79,11 +82,13 @@ class LocationFragment : BaseFragment<FragmentLocationBinding, LocationViewModel
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
         initializePlaces()
-        binding.setupButton.setOnClickListener {
-            latLng?.let {latLng->
-                locationType?.let {
-                    viewModel.prepareUserLocation(latLng,it)
-                    findNavController().navigate(R.id.action_locationFragment_to_baseWeatherFragment)
+        lifecycleScope.launch {
+            binding.setupButton.setOnClickListener {
+                latLng?.let {latLng->
+                    locationType?.let {
+                        viewModel.prepareUserLocation(latLng,it,arguments?.getBoolean("isGoogleMap") ?: false)
+                        findNavController().navigate(R.id.action_locationFragment_to_baseWeatherFragment)
+                    }
                 }
             }
         }

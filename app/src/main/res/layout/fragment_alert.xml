@@ -13,6 +13,13 @@
         android:layout_height="match_parent"
         tools:context=".ui.alert.AlertFragment">
 
+        <androidx.constraintlayout.widget.Group
+            android:alpha="0"
+            android:id="@+id/durationGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="timeCardView,textView30,textView29" />
+
         <TextView
             android:id="@+id/textView26"
             android:layout_width="0dp"
@@ -114,7 +121,7 @@
 
 
                 <Switch
-                    android:id="@+id/locationSwitch"
+                    android:id="@+id/durationTimeSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
@@ -127,7 +134,7 @@
 
 
                 <Switch
-                    android:id="@+id/englishSwitch"
+                    android:id="@+id/severeSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="18dp"
@@ -149,7 +156,8 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="32dp"
             android:textSize="16sp"
-            android:text="other"
+            android:alpha="0"
+            android:text="@string/other"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/settingsCardView" />
         <androidx.cardview.widget.CardView
@@ -158,6 +166,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
+            android:alpha="0"
             android:layout_marginEnd="24dp"
             app:cardCornerRadius="15dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -177,7 +186,7 @@
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/weathers_font"
                     android:textColor="@drawable/text_button_bakground"
-                    android:text="2:30"
+                    android:text="@string/hour"
                     android:textSize="34sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -217,7 +226,7 @@
                     android:layout_marginTop="2dp"
                     android:textColor="@drawable/text_button_bakground"
                     android:layout_marginBottom="8dp"
-                    android:text="Saturday, March 11, 2023"
+                    android:text="@string/duration_time_date"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/hourTextView" />
@@ -230,6 +239,7 @@
             android:id="@+id/textView30"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:alpha="0"
             android:layout_marginStart="40dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="40dp"
