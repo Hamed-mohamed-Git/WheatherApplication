@@ -27,20 +27,17 @@ This screen displays:
 
 
 *Weather Alerts Screen:
-This screen will contain a button to add weather alert which should set an alarm
+This screen will contain a button to add weather alert and set an alarm
 with the following settings:
 ▪ The duration through which the alarm is active.
 ▪ The type of alarm even using notification
 ▪ Option to stop notification or turn off the alarm.
 
 *Favorite Screen:
-This screen lists the favorite locations. Pressing on an item should open another
+This screen lists the favorite locations. Pressing on an open another
 screen that displays all the forecast information of this place.
-In addition, there should be a FAB button via which the user can add a new
-favorite place. When it is clicked an activity whose map and auto-complete edit
-text should be shown to give the user the ability to set a marker on a specific
-location or type in the edit text the name of a city and save this location to the
-favorites list.
+In addition, there is a FAB button via which the user can add a new
+favorite place using auto complete search
 Besides, facility to enable the user to remove a saved place.
 
 ## Technologies
