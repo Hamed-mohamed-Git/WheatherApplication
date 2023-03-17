@@ -5,25 +5,40 @@ And view precipitation, temperature to see different conditions near you.
 
 ## Features
 *Settings Screen:
-▪ In this screen the user will have the ability to choose the location and temperature units.
-• For location: a user can choose even between getting the location by GPS or choosing a specific location from the map
-• For units:
--User can choose units of temperature (Kelvin, Celsius, and Fahrenheit)
--User can choose units of wind speed (meter/sec, miles/hour.)
--User can choose language (Arabic – English)
+<br>
+ • In this screen the user will have the ability to choose the location and temperature units.
+<br>
+ • For location: a user can choose even between getting the location by GPS or choosing a specific location from the map
+<br>
+ • For units:
+  -User can choose units of temperature (Kelvin, Celsius, and Fahrenheit)
+<br>
+  -User can choose units of wind speed (meter/sec, miles/hour.)
+<br>
+  -User can choose language (Arabic – English)
  
 *Home Screen:
 This screen displays:
-• The current temperature
-• Current time
-• Humidity
-• Wind speed
-• Clouds
-• City
-• Icon (suitable to the weather status)
-• Weather description (clear sky, light rain ... etc.)
-• All the past hourly for the current date
-• All past features for 7 days.
+<br>
+ • The current temperature
+<br>
+ • Current time
+<br>
+ • Humidity
+<br>
+ • Wind speed
+<br>
+ • Clouds
+<br>
+ • City
+<br>
+ • Icon (suitable to the weather status)
+<br>
+ • Weather description (clear sky, light rain ... etc.)
+<br>
+ • All the past hourly for the current date
+<br>
+ • All past features for 7 days.
 
 
 *Weather Alerts Screen:
