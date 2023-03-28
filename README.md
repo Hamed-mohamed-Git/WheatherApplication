@@ -71,7 +71,9 @@ Besides, facility to enable the user to remove a saved place.
 
 
 ## "WeatherApp" Screens
-
+<img src="./images/8.jpg"
+     alt="Screenshot 1"
+     style="width: 400px" />
 <img src="./images/1.jpg"
      alt="Screenshot 1"
      style="width: 400px" />
@@ -79,6 +81,9 @@ Besides, facility to enable the user to remove a saved place.
      alt="Screenshot 1"
      style="width: 400px" />
      <img src="./images/3.jpg"
+     alt="Screenshot 1"
+     style="width: 400px" />
+     <img src="./images/9.jpg"
      alt="Screenshot 1"
      style="width: 400px" />
      <img src="./images/4.jpg"
