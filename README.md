@@ -4,51 +4,55 @@ See current and forecasted weather with a smart layout that updates as condition
 And view precipitation, temperature to see different conditions near you.
 
 ## Features
-*Settings Screen:
+### Settings Screen:
+ &nbsp; • In this screen the user will have the ability to choose the location and temperature units.
 <br>
- • In this screen the user will have the ability to choose the location and temperature units.
+ &nbsp; • For location: a user can choose even between getting the location by GPS or choosing a specific location from the map
 <br>
- • For location: a user can choose even between getting the location by GPS or choosing a specific location from the map
+  &nbsp; • For units:
+  <br>
+  &nbsp; &nbsp; -User can choose units of temperature (Kelvin, Celsius, and Fahrenheit)
 <br>
- • For units:
-  -User can choose units of temperature (Kelvin, Celsius, and Fahrenheit)
+  &nbsp; &nbsp; -User can choose units of wind speed (meter/sec, miles/hour.)
 <br>
-  -User can choose units of wind speed (meter/sec, miles/hour.)
-<br>
-  -User can choose language (Arabic – English)
+  &nbsp; &nbsp; -User can choose language (Arabic – English)
  
-*Home Screen:
+### Home Screen:
 This screen displays:
 <br>
- • The current temperature
+ &nbsp; • The current temperature
 <br>
- • Current time
+  &nbsp; • Current time
 <br>
- • Humidity
+ &nbsp; • Humidity
 <br>
- • Wind speed
+ &nbsp; • Wind speed
 <br>
- • Clouds
+ &nbsp; • Clouds
 <br>
- • City
+ &nbsp; • City
 <br>
- • Icon (suitable to the weather status)
+ &nbsp; • Icon (suitable to the weather status)
 <br>
- • Weather description (clear sky, light rain ... etc.)
+ &nbsp; • Weather description (clear sky, light rain ... etc.)
 <br>
- • All the past hourly for the current date
+ &nbsp; • All the past hourly for the current date
 <br>
- • All past features for 7 days.
+ &nbsp; • All past features for 7 days.
 
 
-*Weather Alerts Screen:
-This screen will contain a button to add weather alert and set an alarm
-with the following settings:
-▪ The duration through which the alarm is active.
-▪ The type of alarm even using notification
-▪ Option to stop notification or turn off the alarm.
+### Weather Alerts Screen:
+&nbsp; This screen will contain a button to add weather alert and set an alarm
+<br>
+&nbsp; with the following settings:
+<br>
+&nbsp; &nbsp; ▪ The duration through which the alarm is active.
+<br>
+&nbsp; &nbsp; ▪ The type of alarm even using notification
+<br>
+&nbsp; &nbsp; ▪ Option to stop notification or turn off the alarm.
 
-*Favorite Screen:
+### Favorite Screen:
 This screen lists the favorite locations. Pressing on an open another
 screen that displays all the forecast information of this place.
 In addition, there is a FAB button via which the user can add a new
@@ -56,18 +60,20 @@ favorite place using auto complete search
 Besides, facility to enable the user to remove a saved place.
 
 ## Technologies
-- MVVM architectural design pattern.
-- claen app architectur
-- Retrofit API -> open weather api
+- MVVM architectural pattern.
+- clean app architectur
+- Retrofit API 
 - ROOM Database
-- Google Maps
+- Google Maps, places services
+- Navigation Component
+- ViewModel
 - Alarm manger
-- Coroutines -> flow and channel
-- Worker manger  -> periodic workmanager
-- Test -> unit Testing 
+- Coroutines
+- Worker manger
+- Unit Testing 
 - Data binding
-- dagger hilt
-- data store 
+- Dagger hilt
+- Data store 
 
 
 ## "WeatherApp" Screens
